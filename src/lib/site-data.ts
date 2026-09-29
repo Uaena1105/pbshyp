@@ -1,0 +1,288 @@
+import { cache } from 'react';
+import { getSupabaseClient } from '@/storage/database/supabase-client';
+
+export interface Site {
+  id: number;
+  slug: string;
+  name: string;
+  is_active: boolean;
+  created_at: string;
+}
+
+export interface SiteSettings {
+  id: number;
+  site_id: number;
+  company_name: string | null;
+  logo_url: string | null;
+  favicon_url: string | null;
+  whatsapp: string | null;
+  phone: string | null;
+  email: string | null;
+  address: string | null;
+  seo_title: string | null;
+  seo_description: string | null;
+  seo_keywords: string | null;
+  footer_text: string | null;
+  primary_color: string;
+  hero_title: string | null;
+  hero_subtitle: string | null;
+  hero_image: string | null;
+  hero_button_text: string | null;
+  hero_button_link: string | null;
+}
+
+export interface NavLink {
+  id: number;
+  site_id: number;
+  label: string;
+  href: string;
+  sort_order: number;
+  is_active: boolean;
+}
+
+export interface Category {
+  id: number;
+  site_id: number;
+  name: string;
+  slug: string;
+  description: string | null;
+  image: string | null;
+  sort_order: number;
+  is_active: boolean;
+  parent_id: number | null;
+}
+
+export interface Product {
+  id: number;
+  site_id: number;
+  category_id: number | null;
+  name: string;
+  slug: string;
+  model: string | null;
+  price: string | null;
+  main_image: string | null;
+  images: string[];
+  short_description: string | null;
+  description: string | null;
+  specifications: any[];
+  sort_order: number;
+  is_active: boolean;
+  is_featured: boolean;
+  created_at: string;
+}
+
+export interface Banner {
+  id: number;
+  site_id: number;
+  image: string;
+  title: string | null;
+  subtitle: string | null;
+  button_text: string | null;
+  button_link: string | null;
+  sort_order: number;
+  is_active: boolean;
+}
+
+export interface PageData {
+  id: number;
+  site_id: number;
+  slug: string;
+  title: string;
+  content: any;
+  banner_image: string | null;
+  is_published: boolean;
+}
+
+export const getSiteBySlug = cache(async (slug: string): Promise<Site | null> => {
+  const client = getSupabaseClient();
+  const { data, error } = await client
+    .from('sites')
+    .select('*')
+    .eq('slug', slug)
+    .eq('is_active', true)
+    .maybeSingle();
+  
+  if (error) throw new Error(`获取站点失败: ${error.message}`);
+  return data as Site | null;
+});
+
+export const getSiteSettings = cache(async (siteId: number): Promise<SiteSettings | null> => {
+  const client = getSupabaseClient();
+  const { data, error } = await client
+    .from('site_settings')
+    .select('*')
+    .eq('site_id', siteId)
+    .maybeSingle();
+  
+  if (error) throw new Error(`获取站点设置失败: ${error.message}`);
+  return data as SiteSettings | null;
+});
+
+export const getNavLinks = cache(async (siteId: number): Promise<NavLink[]> => {
+  const client = getSupabaseClient();
+  const { data, error } = await client
+    .from('nav_links')
+    .select('*')
+    .eq('site_id', siteId)
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true });
+  
+  if (error) throw new Error(`获取导航失败: ${error.message}`);
+  return data as NavLink[];
+});
+
+export async function getBanners(siteId: number): Promise<Banner[]> {
+  const client = getSupabaseClient();
+  const { data, error } = await client
+    .from('banners')
+    .select('*')
+    .eq('site_id', siteId)
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true });
+  
+  if (error) throw new Error(`获取Banner失败: ${error.message}`);
+  return data as Banner[];
+}
+
+export async function getCategories(siteId: number): Promise<Category[]> {
+  const client = getSupabaseClient();
+  const { data, error } = await client
+    .from('categories')
+    .select('*')
+    .eq('site_id', siteId)
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true });
+  
+  if (error) throw new Error(`获取分类失败: ${error.message}`);
+  return data as Category[];
+}
+
+export async function getFeaturedProducts(siteId: number, limit = 8): Promise<Product[]> {
+  const client = getSupabaseClient();
+  const { data, error } = await client
+    .from('products')
+    .select('*')
+    .eq('site_id', siteId)
+    .eq('is_active', true)
+    .eq('is_featured', true)
+    .order('sort_order', { ascending: true })
+    .limit(limit);
+  
+  if (error) throw new Error(`获取精选产品失败: ${error.message}`);
+  return data as Product[];
+}
+
+export async function getProducts(siteId: number, categoryId?: number, page = 1, pageSize = 12): Promise<{ data: Product[]; count: number }> {
+  const client = getSupabaseClient();
+  let query = client
+    .from('products')
+    .select('*', { count: 'exact' })
+    .eq('site_id', siteId)
+    .eq('is_active', true);
+  
+  if (categoryId) {
+    query = query.eq('category_id', categoryId);
+  }
+  
+  const { data, error, count } = await query
+    .order('sort_order', { ascending: true })
+    .range((page - 1) * pageSize, page * pageSize - 1);
+  
+  if (error) throw new Error(`获取产品失败: ${error.message}`);
+  return { data: data as Product[], count: count ?? 0 };
+}
+
+export async function getProductById(id: number): Promise<Product | null> {
+  const client = getSupabaseClient();
+  const { data, error } = await client
+    .from('products')
+    .select('*')
+    .eq('id', id)
+    .eq('is_active', true)
+    .maybeSingle();
+  
+  if (error) throw new Error(`获取产品详情失败: ${error.message}`);
+  return data as Product | null;
+}
+
+export async function getProductBySlug(siteId: number, slug: string): Promise<Product | null> {
+  const client = getSupabaseClient();
+  const { data, error } = await client
+    .from('products')
+    .select('*')
+    .eq('site_id', siteId)
+    .eq('slug', slug)
+    .eq('is_active', true)
+    .maybeSingle();
+  
+  if (error) throw new Error(`获取产品详情失败: ${error.message}`);
+  return data as Product | null;
+}
+
+export async function getPageBySlug(siteId: number, slug: string): Promise<PageData | null> {
+  const client = getSupabaseClient();
+  const { data, error } = await client
+    .from('pages')
+    .select('*')
+    .eq('site_id', siteId)
+    .eq('slug', slug)
+    .eq('is_published', true)
+    .maybeSingle();
+  
+  if (error) throw new Error(`获取页面失败: ${error.message}`);
+  return data as PageData | null;
+}
+
+export interface NewsItem {
+  id: number;
+  site_id: number;
+  title: string;
+  slug: string;
+  category: string;
+  cover_image: string | null;
+  summary: string | null;
+  content: string | null;
+  published_at: string;
+  is_published: boolean;
+  sort_order: number;
+}
+
+export async function getNews(siteId: number, limit = 20): Promise<NewsItem[]> {
+  const client = getSupabaseClient();
+  const { data, error } = await client
+    .from('news')
+    .select('*')
+    .eq('site_id', siteId)
+    .eq('is_published', true)
+    .order('published_at', { ascending: false })
+    .limit(limit);
+  
+  if (error) throw new Error(`获取新闻失败: ${error.message}`);
+  return data as NewsItem[];
+}
+
+export async function getNewsBySlug(siteId: number, slug: string): Promise<NewsItem | null> {
+  const client = getSupabaseClient();
+  const { data, error } = await client
+    .from('news')
+    .select('*')
+    .eq('site_id', siteId)
+    .eq('slug', slug)
+    .eq('is_published', true)
+    .maybeSingle();
+  
+  if (error) throw new Error(`获取新闻详情失败: ${error.message}`);
+  return data as NewsItem | null;
+}
+
+export async function getAllSites(): Promise<Site[]> {
+  const client = getSupabaseClient();
+  const { data, error } = await client
+    .from('sites')
+    .select('*')
+    .eq('is_active', true)
+    .order('id', { ascending: true });
+  
+  if (error) throw new Error(`获取站点列表失败: ${error.message}`);
+  return data as Site[];
+}

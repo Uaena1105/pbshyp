@@ -1,35 +1,59 @@
-import type { Metadata } from 'next';
-import Image from 'next/image';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { Globe, ArrowUpRight } from 'lucide-react';
+import { getAllSites } from '@/lib/site-data';
 
-export const metadata: Metadata = {
-  title: '扣子编程 - AI 开发伙伴',
-  description: '扣子编程，你的 AI 开发伙伴已就位',
-};
+export const dynamic = 'force-dynamic';
 
-export default function Home() {
+export default async function HomePage() {
+  const sites = await getAllSites();
+
+  if (sites.length === 1) {
+    redirect(`/${sites[0].slug}`);
+  }
+
   return (
-    <div className="flex h-full items-center justify-center bg-background text-foreground transition-colors duration-300 dark:bg-background dark:text-foreground overflow-hidden min-h-screen">
-      {/* 主容器 */}
-      <main className="flex w-full h-full max-w-3xl flex-col items-center justify-center px-16 py-32 sm:items-center">
-        <div className="flex flex-col items-center justify-between gap-4">
-           <Image
-            src="https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze-coding/icon/coze-coding.gif"
-            alt="扣子编程 Logo"
-            width={156}
-            height={130}
-          />
-          <div>
-            <div className="flex flex-col items-center gap-2 text-center sm:items-center sm:text-center">
-              <h1 className="max-w-xl text-base font-semibold leading-tight tracking-tight text-foreground dark:text-foreground">
-                应用开发中
-              </h1>
-              <p className="max-w-2xl text-sm leading-8 text-muted-foreground dark:text-muted-foreground">
-                请稍后，页面即将呈现
-              </p>
-            </div>
+    <main className="min-h-screen bg-slate-50">
+      <div className="mx-auto max-w-5xl px-4 py-20">
+        <div className="text-center">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-slate-900 text-white">
+            <Globe className="h-7 w-7" />
           </div>
+          <h1 className="mt-6 font-serif text-3xl font-bold text-slate-900 sm:text-4xl">
+            Multi-Site CMS
+          </h1>
+          <p className="mt-3 text-lg text-slate-500">
+            Your websites are ready. Select one below to visit.
+          </p>
         </div>
-      </main>
-    </div>
+
+        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {sites.map((site) => (
+            <Link
+              key={site.id}
+              href={`/${site.slug}`}
+              className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:border-slate-900 hover:shadow-md"
+            >
+              <div className="min-w-0">
+                <div className="text-sm text-slate-400">/{site.slug}</div>
+                <div className="mt-1 truncate font-serif text-lg font-semibold text-slate-900">
+                  {site.name}
+                </div>
+              </div>
+              <ArrowUpRight className="h-5 w-5 shrink-0 text-slate-300 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-slate-900" />
+            </Link>
+          ))}
+        </div>
+
+        <div className="mt-12 text-center">
+          <Link
+            href="/admin"
+            className="inline-flex items-center gap-2 rounded-md bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
+          >
+            Manage Sites
+          </Link>
+        </div>
+      </div>
+    </main>
   );
 }

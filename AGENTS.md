@@ -63,3 +63,32 @@
 
 - 模板默认预装核心组件库 `shadcn/ui`，位于`src/components/ui/`目录下
 - Next.js 项目**必须默认**采用 shadcn/ui 组件、风格和规范，**除非用户指定用其他的组件和规范。**
+
+## 项目特性：多站点 CMS 系统
+
+本项目是一个「多站点企业官网 CMS」，复刻外贸工厂官网（塑料制品行业）UI，支持多行业商品展示与总部后台统一管理。
+
+### 默认账号
+- 后台地址：`/admin`
+- 默认管理员：`admin` / `admin123`（首次访问 `/api/init` 自动创建）
+
+### 路由结构
+- `src/app/[slug]/` - 站点前端（`slug` 为站点路径，如 `/1`、`/2`）
+  - `page.tsx` 首页；`products/` 产品中心；`products/[productSlug]/` 产品详情
+  - `about/` 关于我们；`news/` 新闻列表；`news/[newsSlug]/` 新闻详情；`contact/` 联系我们
+- `src/app/admin/` - 后台（`login` 登录；`(dashboard)` 站点列表与站点编辑器）
+- `src/app/api/admin/` - 后台 API（登录鉴权 + 站点/设置/轮播/分类/产品/新闻/导航 CRUD）
+- `src/app/api/init/` - 初始化示例数据
+
+### 数据库表（Supabase / PostgreSQL）
+`admins`、`admin_sessions`、`sites`、`site_settings`、`nav_links`、`pages`、`categories`、`products`、`banners`、`news`
+
+### 关键实现
+- 鉴权：`src/lib/admin-auth.ts` + `src/lib/admin-request.ts`（session token 存 `admin_sessions`，cookie `admin_token`）
+- 前端数据读取：`src/lib/site-data.ts`（`getSiteBySlug` / `getSiteSettings` / `getNavLinks` / `getProducts` 等）
+- 站点前端组件：`src/components/site/`（header / footer / home-content / whatsapp-float / contact-form）
+- 后台组件：`src/components/admin/`（sites-manager / site-editor / settings-tab / banners-tab / categories-tab / products-tab / news-tab / nav-tab）
+
+### 数据库模型维护
+- 表结构定义：`src/storage/database/shared/schema.ts`
+- 修改 schema 后执行 `coze-coding-ai db upgrade` 同步数据库
