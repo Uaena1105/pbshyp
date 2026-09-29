@@ -18,49 +18,51 @@ export default async function NewsDetailPage({
   if (!news) notFound();
 
   return (
-    <div className="font-[Source_Sans_3,sans-serif]">
-      <div className="bg-slate-50 py-12">
-        <div className="mx-auto max-w-3xl px-4">
-          <Link
-            href={`/${slug}/news`}
-            className="inline-flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-blue-700"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to News
-          </Link>
+    <div className="py-12">
+      <div className="mx-auto max-w-3xl px-6">
+        <Link
+          href={`/${slug}/news`}
+          className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 transition-colors hover:text-primary"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to News
+        </Link>
 
+        <div className="glass-card mt-8 overflow-hidden rounded-[2rem] p-8 md:p-10">
           {news.cover_image && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={news.cover_image}
-              alt={news.title}
-              className="mt-6 h-64 w-full rounded-lg object-cover"
-            />
+            <div className="-mx-8 -mt-8 mb-8 overflow-hidden md:-mx-10 md:-mt-10">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={news.cover_image}
+                alt={news.title}
+                className="h-72 w-full object-cover"
+              />
+            </div>
           )}
 
-          <div className="mt-6">
-            <span className="inline-block rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700">
-              {news.category}
-            </span>
-            <h1 className="mt-3 font-serif text-2xl font-bold text-slate-900 sm:text-3xl">
-              {news.title}
-            </h1>
-            <div className="mt-2 flex items-center gap-2 text-sm text-slate-400">
-              <CalendarDays className="h-4 w-4" />
-              {new Date(news.published_at).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </div>
+          <span className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+            {news.category}
+          </span>
+          <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+            {news.title}
+          </h1>
+          <div className="mt-3 flex items-center gap-2 text-sm text-slate-400">
+            <CalendarDays className="h-4 w-4" />
+            {new Date(news.published_at).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
           </div>
 
           {news.summary && (
-            <p className="mt-6 text-lg font-medium text-slate-700">{news.summary}</p>
+            <p className="mt-6 text-lg font-medium leading-relaxed text-slate-700">
+              {news.summary}
+            </p>
           )}
 
           {news.content && (
-            <div className="mt-4 whitespace-pre-wrap leading-relaxed text-slate-600">
+            <div className="mt-5 whitespace-pre-wrap leading-relaxed text-slate-600">
               {news.content}
             </div>
           )}

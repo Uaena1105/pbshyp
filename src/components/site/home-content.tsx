@@ -65,6 +65,15 @@ const process = [
   { icon: Headset, title: 'After-sales Service', desc: 'Dedicated follow-up, issues responded within 24 hours, priority support for long-term partners.' },
 ];
 
+const stats = [
+  { value: '2021', label: 'Established' },
+  { value: '3+', label: 'Years Experience' },
+  { value: '46', label: 'SKU Models' },
+  { value: '10+', label: 'Export Countries' },
+  { value: '500+', label: 'Clients Served' },
+  { value: '5000㎡', label: 'Factory Area' },
+];
+
 export function HomeContent({
   slug,
   settings,
@@ -85,82 +94,89 @@ export function HomeContent({
   const heroSubtitle = settings?.hero_subtitle ?? '';
 
   return (
-    <div className="font-[Source_Sans_3,sans-serif]">
+    <div>
       {/* Hero */}
-      <section className="relative bg-slate-900">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 md:grid-cols-2 md:py-24 lg:py-28">
-          <div className="flex flex-col justify-center">
-            <p className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-blue-400/30 bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-300">
-              <Sparkles className="h-3.5 w-3.5" />
+      <section className="relative">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-16 md:grid-cols-2 md:py-24 lg:py-28">
+          <div className="flex flex-col items-start">
+            <span className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold text-slate-600">
+              <Sparkles className="h-3.5 w-3.5 text-primary" />
               Shandong, China · Est. 2021
-            </p>
-            <h1 className="font-serif text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-              {heroTitle}
+            </span>
+            <h1 className="mt-6 text-4xl font-extrabold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+              {heroTitle.split(' ').slice(0, -1).join(' ')}{' '}
+              <span className="text-gradient">
+                {heroTitle.split(' ').slice(-1)}
+              </span>
             </h1>
             {heroSubtitle && (
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-slate-300">
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-600">
                 {heroSubtitle}
               </p>
             )}
             <div className="mt-6 flex flex-wrap gap-2">
-              {['Material options', 'Confirmed per order', 'Custom OEM', 'Requirements confirmed per product'].map(
+              {['Material options', 'Confirmed per order', 'Custom OEM', 'Requirements confirmed'].map(
                 (tag) => (
                   <span
                     key={tag}
-                    className="rounded-md border border-slate-600 bg-slate-800/60 px-3 py-1 text-xs font-medium text-slate-300"
+                    className="glass rounded-full px-3.5 py-1.5 text-xs font-medium text-slate-600"
                   >
                     {tag}
                   </span>
                 ),
               )}
             </div>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-9 flex flex-wrap gap-3">
               <Link
                 href={`/${slug}/products`}
-                className="inline-flex items-center gap-2 rounded-md bg-blue-700 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-600"
+                className="sheen inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
               >
                 View Products
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href={`/${slug}/contact`}
-                className="inline-flex items-center gap-2 rounded-md border border-slate-600 px-6 py-3 text-sm font-semibold text-slate-200 transition-colors hover:border-slate-400 hover:text-white"
+                className="glass-btn inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-foreground"
               >
                 Contact Us
               </Link>
             </div>
           </div>
+
           {heroImage && (
-            <div className="relative overflow-hidden rounded-xl">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={heroImage}
-                alt={heroTitle}
-                className="h-full min-h-[280px] w-full object-cover"
-              />
+            <div className="relative">
+              <div className="glass-card float-slow overflow-hidden rounded-[2rem] p-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={heroImage}
+                  alt={heroTitle}
+                  className="h-full min-h-[300px] w-full rounded-[1.6rem] object-cover"
+                />
+              </div>
             </div>
           )}
         </div>
       </section>
 
       {/* 优势区 */}
-      <section className="bg-white py-16">
-        <div className="mx-auto max-w-7xl px-4">
+      <section className="py-16">
+        <div className="mx-auto max-w-7xl px-6">
           <div className="text-center">
-            <h2 className="font-serif text-2xl font-bold text-slate-900 sm:text-3xl">
-              Why Choose Us
+            <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+              Why Choose <span className="text-gradient">Us</span>
             </h2>
-            <p className="mt-2 text-slate-500">Our Advantages</p>
+            <p className="mt-3 text-slate-500">Our Advantages</p>
           </div>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {advantages.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-lg border border-slate-100 p-6 transition-all hover:-translate-y-1 hover:shadow-md"
-              >
-                <item.icon className="h-8 w-8 text-blue-700" />
-                <h3 className="mt-4 font-serif text-lg font-bold text-slate-900">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-500">{item.desc}</p>
+              <div key={item.title} className="glass-card rounded-2xl p-7">
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
+                  <item.icon className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="mt-5 text-lg font-bold tracking-tight text-foreground">
+                  {item.title}
+                </h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-slate-600">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -169,35 +185,37 @@ export function HomeContent({
 
       {/* 产品分类 */}
       {categories.length > 0 && (
-        <section className="bg-slate-50 py-16">
-          <div className="mx-auto max-w-7xl px-4">
+        <section className="py-16">
+          <div className="mx-auto max-w-7xl px-6">
             <div className="text-center">
-              <h2 className="font-serif text-2xl font-bold text-slate-900 sm:text-3xl">
-                Our Products
+              <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+                Our <span className="text-gradient">Products</span>
               </h2>
-              <p className="mt-2 text-slate-500">Product Range</p>
+              <p className="mt-3 text-slate-500">Product Range</p>
             </div>
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {categories.map((cat) => (
                 <Link
                   key={cat.id}
                   href={`/${slug}/products?category=${cat.slug}`}
-                  className="group relative overflow-hidden rounded-lg bg-white shadow-sm transition-all hover:shadow-md"
+                  className="glass-card group overflow-hidden rounded-2xl"
                 >
-                  {cat.image && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={cat.image}
-                      alt={cat.name}
-                      className="h-48 w-full object-cover transition-transform group-hover:scale-105"
-                    />
-                  )}
-                  <div className="p-5">
-                    <h3 className="font-serif text-lg font-bold text-slate-900 group-hover:text-blue-700">
+                  <div className="overflow-hidden">
+                    {cat.image && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={cat.image}
+                        alt={cat.name}
+                        className="h-52 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                      />
+                    )}
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
                       {cat.name}
                     </h3>
                     {cat.description && (
-                      <p className="mt-2 line-clamp-2 text-sm text-slate-500">{cat.description}</p>
+                      <p className="mt-2 line-clamp-2 text-sm text-slate-600">{cat.description}</p>
                     )}
                   </div>
                 </Link>
@@ -209,46 +227,46 @@ export function HomeContent({
 
       {/* 精选产品 */}
       {featuredProducts.length > 0 && (
-        <section className="bg-white py-16">
-          <div className="mx-auto max-w-7xl px-4">
+        <section className="py-16">
+          <div className="mx-auto max-w-7xl px-6">
             <div className="flex items-end justify-between">
               <div>
-                <h2 className="font-serif text-2xl font-bold text-slate-900 sm:text-3xl">
-                  Featured Products
+                <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+                  Featured <span className="text-gradient">Products</span>
                 </h2>
               </div>
               <Link
                 href={`/${slug}/products`}
-                className="inline-flex items-center gap-1 text-sm font-medium text-blue-700 hover:text-blue-600"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:brightness-110"
               >
                 View All
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {featuredProducts.map((product) => (
                 <Link
                   key={product.id}
                   href={`/${slug}/products/${product.slug}`}
-                  className="group rounded-lg border border-slate-100 bg-white p-3 transition-all hover:-translate-y-1 hover:shadow-md"
+                  className="glass-card group rounded-2xl p-3"
                 >
-                  {product.main_image && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={product.main_image}
-                      alt={product.name}
-                      className="h-44 w-full rounded-md object-cover"
-                    />
-                  )}
-                  <div className="p-3">
-                    <h3 className="font-semibold text-slate-900 group-hover:text-blue-700">
+                  <div className="overflow-hidden rounded-xl">
+                    {product.main_image && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={product.main_image}
+                        alt={product.name}
+                        className="h-44 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                      />
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
                       {product.name}
                     </h3>
-                    {product.model && (
-                      <p className="mt-1 text-xs text-slate-400">{product.model}</p>
-                    )}
+                    {product.model && <p className="mt-1 text-xs text-slate-400">{product.model}</p>}
                     {product.short_description && (
-                      <p className="mt-2 line-clamp-2 text-sm text-slate-500">
+                      <p className="mt-2 line-clamp-2 text-sm text-slate-600">
                         {product.short_description}
                       </p>
                     )}
@@ -261,44 +279,43 @@ export function HomeContent({
       )}
 
       {/* 数据统计 */}
-      <section className="bg-blue-900 py-14">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-4 text-center sm:grid-cols-3 lg:grid-cols-6">
-          {[
-            { value: '2021', label: 'Established' },
-            { value: '3+', label: 'Years Experience' },
-            { value: '46', label: 'SKU Models' },
-            { value: '10+', label: 'Export Countries' },
-            { value: '500+', label: 'Clients Served' },
-            { value: '5000㎡', label: 'Factory Area' },
-          ].map((s) => (
-            <div key={s.label}>
-              <div className="font-serif text-3xl font-bold text-white">{s.value}</div>
-              <div className="mt-1 text-xs uppercase tracking-wider text-blue-200">{s.label}</div>
-            </div>
-          ))}
+      <section className="py-16">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="glass-card grid grid-cols-2 gap-8 rounded-[2rem] p-10 text-center sm:grid-cols-3 lg:grid-cols-6">
+            {stats.map((s) => (
+              <div key={s.label}>
+                <div className="text-gradient text-3xl font-extrabold tracking-tight sm:text-4xl">
+                  {s.value}
+                </div>
+                <div className="mt-2 text-xs font-medium uppercase tracking-wider text-slate-500">
+                  {s.label}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* 生产流程 */}
-      <section className="bg-white py-16">
-        <div className="mx-auto max-w-7xl px-4">
+      <section className="py-16">
+        <div className="mx-auto max-w-7xl px-6">
           <div className="text-center">
-            <h2 className="font-serif text-2xl font-bold text-slate-900 sm:text-3xl">
-              Production Process
+            <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+              Production <span className="text-gradient">Process</span>
             </h2>
-            <p className="mt-2 text-slate-500">
+            <p className="mt-3 text-slate-500">
               From Raw Material to Finished Product — Every Step Strictly Controlled
             </p>
           </div>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {process.map((item, idx) => (
-              <div key={item.title} className="relative rounded-lg border border-slate-100 p-6">
-                <span className="absolute right-4 top-4 font-serif text-3xl font-bold text-slate-100">
+              <div key={item.title} className="glass-card relative rounded-2xl p-6">
+                <span className="absolute right-5 top-5 text-3xl font-extrabold tracking-tight text-slate-200">
                   {String(idx + 1).padStart(2, '0')}
                 </span>
-                <item.icon className="h-7 w-7 text-blue-700" />
-                <h3 className="mt-4 font-semibold text-slate-900">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-500">{item.desc}</p>
+                <item.icon className="h-7 w-7 text-primary" />
+                <h3 className="mt-4 font-bold tracking-tight text-foreground">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -306,28 +323,28 @@ export function HomeContent({
       </section>
 
       {/* 关于预览 */}
-      <section className="bg-slate-50 py-16">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 md:grid-cols-2">
+      <section className="py-16">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 md:grid-cols-2">
           <div>
-            <h2 className="font-serif text-2xl font-bold text-slate-900 sm:text-3xl">
-              Established Manufacturer, Global Reach
+            <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+              Established Manufacturer, <span className="text-gradient">Global Reach</span>
             </h2>
             <p className="mt-5 leading-relaxed text-slate-600">
               {settings?.company_name ?? 'Our company'} focuses on the development, production and
               export of quality products. Material options, dimensions, thickness, color and
               printing are confirmed by model, application and order.
             </p>
-            <div className="mt-6 grid grid-cols-2 gap-4">
+            <div className="mt-7 grid grid-cols-2 gap-4">
               {['Premium materials', 'Custom OEM', 'Quality control', 'Fast delivery'].map((f) => (
-                <div key={f} className="flex items-center gap-2 text-sm text-slate-700">
-                  <CheckCircle2 className="h-5 w-5 text-green-600" />
+                <div key={f} className="flex items-center gap-2.5 text-sm font-medium text-slate-700">
+                  <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />
                   {f}
                 </div>
               ))}
             </div>
             <Link
               href={`/${slug}/about`}
-              className="mt-8 inline-flex items-center gap-2 rounded-md bg-blue-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-800"
+              className="mt-9 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
             >
               Learn More
               <ArrowRight className="h-4 w-4" />
@@ -335,13 +352,17 @@ export function HomeContent({
           </div>
           <div className="grid grid-cols-2 gap-4">
             {banners.slice(0, 2).map((b, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <div
                 key={b.id}
-                src={b.image}
-                alt={b.title ?? ''}
-                className={`h-full w-full rounded-lg object-cover ${i === 0 ? 'mt-8' : ''}`}
-              />
+                className={`glass-card overflow-hidden rounded-3xl p-2 ${i === 0 ? 'mt-8' : ''}`}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={b.image}
+                  alt={b.title ?? ''}
+                  className="h-full w-full rounded-2xl object-cover"
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -349,38 +370,40 @@ export function HomeContent({
 
       {/* 新闻预览 */}
       {news.length > 0 && (
-        <section className="bg-white py-16">
-          <div className="mx-auto max-w-7xl px-4">
+        <section className="py-16">
+          <div className="mx-auto max-w-7xl px-6">
             <div className="flex items-end justify-between">
               <div>
-                <h2 className="font-serif text-2xl font-bold text-slate-900 sm:text-3xl">
-                  News & Updates
+                <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+                  News & <span className="text-gradient">Updates</span>
                 </h2>
-                <p className="mt-2 text-slate-500">Industry Trends · Company News · Product Updates</p>
+                <p className="mt-3 text-slate-500">
+                  Industry Trends · Company News · Product Updates
+                </p>
               </div>
               <Link
                 href={`/${slug}/news`}
-                className="inline-flex items-center gap-1 text-sm font-medium text-blue-700 hover:text-blue-600"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:brightness-110"
               >
                 Read More
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
-            <div className="mt-10 grid gap-6 md:grid-cols-3">
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
               {news.slice(0, 3).map((item) => (
                 <Link
                   key={item.id}
                   href={`/${slug}/news/${item.slug}`}
-                  className="group rounded-lg border border-slate-100 p-5 transition-all hover:-translate-y-1 hover:shadow-md"
+                  className="glass-card group rounded-2xl p-6"
                 >
-                  <span className="inline-block rounded-full bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700">
+                  <span className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                     {item.category}
                   </span>
-                  <h3 className="mt-3 font-semibold text-slate-900 group-hover:text-blue-700">
+                  <h3 className="mt-4 font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
                     {item.title}
                   </h3>
                   {item.summary && (
-                    <p className="mt-2 line-clamp-3 text-sm text-slate-500">{item.summary}</p>
+                    <p className="mt-2.5 line-clamp-3 text-sm text-slate-600">{item.summary}</p>
                   )}
                 </Link>
               ))}
@@ -390,22 +413,28 @@ export function HomeContent({
       )}
 
       {/* CTA */}
-      <section className="bg-blue-900 py-16 text-center">
-        <div className="mx-auto max-w-3xl px-4">
-          <h2 className="font-serif text-2xl font-bold text-white sm:text-3xl">
-            Ready to Work Together?
-          </h2>
-          <p className="mt-4 text-blue-100">
-            Tell us your needs and we&apos;ll reply within 24 hours with a professional quote and
-            sample support.
-          </p>
-          <Link
-            href={`/${slug}/contact`}
-            className="mt-8 inline-flex items-center gap-2 rounded-md bg-white px-8 py-3 text-sm font-semibold text-blue-900 transition-colors hover:bg-blue-50"
-          >
-            Get In Touch
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+      <section className="py-16">
+        <div className="mx-auto max-w-5xl px-6">
+          <div className="glass-card relative overflow-hidden rounded-[2.5rem] px-6 py-16 text-center">
+            <div className="aurora left-[-10%] top-[-30%] h-72 w-72 bg-sky-400/40" />
+            <div className="aurora right-[-10%] bottom-[-30%] h-72 w-72 bg-violet-400/40" />
+            <div className="relative">
+              <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+                Ready to <span className="text-gradient">Work Together?</span>
+              </h2>
+              <p className="mx-auto mt-4 max-w-xl text-slate-600">
+                Tell us your needs and we&apos;ll reply within 24 hours with a professional quote
+                and sample support.
+              </p>
+              <Link
+                href={`/${slug}/contact`}
+                className="mt-9 inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
+              >
+                Get In Touch
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </div>

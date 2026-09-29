@@ -22,7 +22,6 @@ export function ContactForm({ whatsapp }: { whatsapp?: string }) {
     e.preventDefault();
     setSubmitted(true);
 
-    // 如果有 WhatsApp，构造成询价消息并跳转
     if (whatsapp) {
       const number = whatsapp.replace(/[^0-9]/g, '');
       const text = encodeURIComponent(
@@ -38,8 +37,8 @@ export function ContactForm({ whatsapp }: { whatsapp?: string }) {
 
   if (submitted) {
     return (
-      <div className="rounded-lg border border-green-200 bg-green-50 p-6 text-center">
-        <p className="font-medium text-green-800">
+      <div className="glass-card rounded-2xl p-8 text-center">
+        <p className="font-semibold text-emerald-700">
           Thank you for your inquiry! We will respond within 24 hours.
         </p>
       </div>
@@ -47,13 +46,13 @@ export function ContactForm({ whatsapp }: { whatsapp?: string }) {
   }
 
   const inputClass =
-    'w-full rounded-md border border-slate-300 px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-700 focus:outline-none focus:ring-1 focus:ring-blue-700';
+    'w-full rounded-xl border border-white/60 bg-white/50 px-4 py-3 text-sm text-foreground placeholder:text-slate-400 backdrop-blur transition-all focus:border-primary focus:bg-white/70 focus:outline-none focus:ring-2 focus:ring-primary/30';
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Your Name *</label>
+          <label className="mb-1.5 block text-sm font-medium text-slate-700">Your Name *</label>
           <input
             required
             name="name"
@@ -64,7 +63,7 @@ export function ContactForm({ whatsapp }: { whatsapp?: string }) {
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Company Name</label>
+          <label className="mb-1.5 block text-sm font-medium text-slate-700">Company Name</label>
           <input
             name="company"
             value={form.company}
@@ -76,7 +75,7 @@ export function ContactForm({ whatsapp }: { whatsapp?: string }) {
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Email Address *</label>
+          <label className="mb-1.5 block text-sm font-medium text-slate-700">Email Address *</label>
           <input
             required
             type="email"
@@ -88,7 +87,7 @@ export function ContactForm({ whatsapp }: { whatsapp?: string }) {
           />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Phone / WhatsApp</label>
+          <label className="mb-1.5 block text-sm font-medium text-slate-700">Phone / WhatsApp</label>
           <input
             name="phone"
             value={form.phone}
@@ -99,7 +98,9 @@ export function ContactForm({ whatsapp }: { whatsapp?: string }) {
         </div>
       </div>
       <div>
-        <label className="mb-1 block text-sm font-medium text-slate-700">Product of Interest</label>
+        <label className="mb-1.5 block text-sm font-medium text-slate-700">
+          Product of Interest
+        </label>
         <input
           name="product"
           value={form.product}
@@ -109,7 +110,7 @@ export function ContactForm({ whatsapp }: { whatsapp?: string }) {
         />
       </div>
       <div>
-        <label className="mb-1 block text-sm font-medium text-slate-700">
+        <label className="mb-1.5 block text-sm font-medium text-slate-700">
           Message / Inquiry Details *
         </label>
         <textarea
@@ -124,14 +125,14 @@ export function ContactForm({ whatsapp }: { whatsapp?: string }) {
       </div>
       <button
         type="submit"
-        className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-blue-900 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-800"
+        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
       >
         <Send className="h-4 w-4" />
         Send an Inquiry
       </button>
       {whatsapp && (
         <p className="flex items-center justify-center gap-1.5 text-xs text-slate-500">
-          <MessageCircle className="h-4 w-4 text-green-600" />
+          <MessageCircle className="h-4 w-4 text-emerald-600" />
           Prefer WhatsApp? We respond within 24 hours.
         </p>
       )}

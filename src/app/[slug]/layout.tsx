@@ -38,7 +38,20 @@ export default async function SiteLayout({
   const navLinks = await getNavLinks(site.id);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="relative min-h-screen overflow-x-clip bg-background">
+      {/* 液态玻璃光晕背景 */}
+      <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
+        <div className="aurora aurora-animate left-[-10%] top-[-10%] h-[38rem] w-[38rem] bg-sky-400/40" />
+        <div
+          className="aurora aurora-animate right-[-12%] top-[15%] h-[34rem] w-[34rem] bg-violet-400/30"
+          style={{ animationDelay: '-6s' }}
+        />
+        <div
+          className="aurora aurora-animate bottom-[-15%] left-[25%] h-[32rem] w-[32rem] bg-amber-300/25"
+          style={{ animationDelay: '-12s' }}
+        />
+      </div>
+
       <SiteHeader slug={slug} settings={settings} navLinks={navLinks} />
       <main>{children}</main>
       <SiteFooter slug={slug} settings={settings} navLinks={navLinks} />

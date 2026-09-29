@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { Globe, ArrowUpRight } from 'lucide-react';
+import { Globe, ArrowUpRight, LayoutDashboard } from 'lucide-react';
 import { getAllSites } from '@/lib/site-data';
 
 export const dynamic = 'force-dynamic';
@@ -13,43 +13,56 @@ export default async function HomePage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50">
-      <div className="mx-auto max-w-5xl px-4 py-20">
+    <main className="relative min-h-screen overflow-x-clip bg-background">
+      <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
+        <div className="aurora aurora-animate left-[-10%] top-[-10%] h-[36rem] w-[36rem] bg-sky-400/40" />
+        <div
+          className="aurora aurora-animate right-[-10%] top-[20%] h-[32rem] w-[32rem] bg-violet-400/30"
+          style={{ animationDelay: '-6s' }}
+        />
+        <div
+          className="aurora aurora-animate bottom-[-15%] left-[30%] h-[30rem] w-[30rem] bg-amber-300/25"
+          style={{ animationDelay: '-12s' }}
+        />
+      </div>
+
+      <div className="mx-auto max-w-5xl px-6 py-24">
         <div className="text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-slate-900 text-white">
-            <Globe className="h-7 w-7" />
+          <div className="glass-card mx-auto flex h-16 w-16 items-center justify-center rounded-2xl">
+            <Globe className="h-8 w-8 text-primary" />
           </div>
-          <h1 className="mt-6 font-serif text-3xl font-bold text-slate-900 sm:text-4xl">
-            Multi-Site CMS
+          <h1 className="mt-8 text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
+            Multi-Site <span className="text-gradient">CMS</span>
           </h1>
-          <p className="mt-3 text-lg text-slate-500">
+          <p className="mt-4 text-lg text-slate-600">
             Your websites are ready. Select one below to visit.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {sites.map((site) => (
             <Link
               key={site.id}
               href={`/${site.slug}`}
-              className="group flex items-center justify-between rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:border-slate-900 hover:shadow-md"
+              className="glass-card group flex items-center justify-between rounded-2xl p-6"
             >
               <div className="min-w-0">
                 <div className="text-sm text-slate-400">/{site.slug}</div>
-                <div className="mt-1 truncate font-serif text-lg font-semibold text-slate-900">
+                <div className="mt-1.5 truncate text-lg font-bold tracking-tight text-foreground">
                   {site.name}
                 </div>
               </div>
-              <ArrowUpRight className="h-5 w-5 shrink-0 text-slate-300 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-slate-900" />
+              <ArrowUpRight className="h-5 w-5 shrink-0 text-slate-300 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-primary" />
             </Link>
           ))}
         </div>
 
-        <div className="mt-12 text-center">
+        <div className="mt-14 text-center">
           <Link
             href="/admin"
-            className="inline-flex items-center gap-2 rounded-md bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
+            className="glass-btn inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-foreground"
           >
+            <LayoutDashboard className="h-4 w-4" />
             Manage Sites
           </Link>
         </div>

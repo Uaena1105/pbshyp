@@ -30,44 +30,39 @@ export default async function ProductsPage({
   ]);
 
   const activeCategory = categories.find((c) => c.slug === category);
-  const { data: products } = await getProducts(
-    site.id,
-    activeCategory?.id,
-    1,
-    100,
-  );
+  const { data: products } = await getProducts(site.id, activeCategory?.id, 1, 100);
 
   const heroImage = settings?.hero_image ?? banners[0]?.image ?? '';
 
   return (
-    <div className="font-[Source_Sans_3,sans-serif]">
+    <div>
       {/* 页头 */}
-      <section className="relative bg-slate-900 py-16 text-center">
+      <section className="relative py-16 text-center">
         {heroImage && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={heroImage}
             alt=""
-            className="absolute inset-0 h-full w-full object-cover opacity-30"
+            className="absolute inset-0 h-full w-full object-cover opacity-20 [mask-image:linear-gradient(to_bottom,black,transparent)]"
           />
         )}
         <div className="relative">
-          <h1 className="font-serif text-3xl font-bold text-white sm:text-4xl">
-            Product Center
+          <h1 className="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
+            Product <span className="text-gradient">Center</span>
           </h1>
-          <p className="mt-3 text-slate-300">Full-range Packaging Solutions</p>
+          <p className="mt-3 text-slate-600">Full-range Packaging Solutions</p>
         </div>
       </section>
 
       {/* 分类过滤 */}
-      <div className="border-b border-slate-100 bg-white">
-        <div className="mx-auto flex max-w-7xl flex-wrap gap-2 px-4 py-4">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="glass flex flex-wrap gap-2 rounded-2xl p-2">
           <Link
             href={`/${slug}/products`}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+            className={`rounded-full px-5 py-2 text-sm font-semibold transition-all ${
               !activeCategory
-                ? 'bg-blue-900 text-white'
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                ? 'bg-primary text-white shadow-lg shadow-primary/25'
+                : 'text-slate-600 hover:bg-white/60'
             }`}
           >
             All
@@ -76,10 +71,10 @@ export default async function ProductsPage({
             <Link
               key={cat.id}
               href={`/${slug}/products?category=${cat.slug}`}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+              className={`rounded-full px-5 py-2 text-sm font-semibold transition-all ${
                 activeCategory?.id === cat.id
-                  ? 'bg-blue-900 text-white'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  ? 'bg-primary text-white shadow-lg shadow-primary/25'
+                  : 'text-slate-600 hover:bg-white/60'
               }`}
             >
               {cat.name}
@@ -89,41 +84,43 @@ export default async function ProductsPage({
       </div>
 
       {/* 产品网格 */}
-      <section className="bg-slate-50 py-12">
-        <div className="mx-auto max-w-7xl px-4">
+      <section className="py-12">
+        <div className="mx-auto max-w-7xl px-6">
           {products.length === 0 ? (
-            <div className="py-20 text-center text-slate-500">No products found.</div>
+            <div className="glass-card rounded-2xl py-20 text-center text-slate-500">
+              No products found.
+            </div>
           ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {products.map((product) => (
                 <Link
                   key={product.id}
                   href={`/${slug}/products/${product.slug}`}
-                  className="group overflow-hidden rounded-lg border border-slate-100 bg-white transition-all hover:-translate-y-1 hover:shadow-md"
+                  className="glass-card group overflow-hidden rounded-2xl"
                 >
-                  {product.main_image && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={product.main_image}
-                      alt={product.name}
-                      className="h-52 w-full object-cover transition-transform group-hover:scale-105"
-                    />
-                  )}
-                  <div className="p-5">
-                    <h3 className="font-serif text-lg font-bold text-slate-900 group-hover:text-blue-700">
+                  <div className="overflow-hidden">
+                    {product.main_image && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={product.main_image}
+                        alt={product.name}
+                        className="h-56 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                      />
+                    )}
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
                       {product.name}
                     </h3>
-                    {product.model && (
-                      <p className="mt-1 text-xs text-slate-400">{product.model}</p>
-                    )}
+                    {product.model && <p className="mt-1 text-xs text-slate-400">{product.model}</p>}
                     {product.short_description && (
-                      <p className="mt-2 line-clamp-2 text-sm text-slate-500">
+                      <p className="mt-2 line-clamp-2 text-sm text-slate-600">
                         {product.short_description}
                       </p>
                     )}
-                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-blue-700">
+                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary">
                       View Details
-                      <ArrowRight className="h-4 w-4" />
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </span>
                   </div>
                 </Link>

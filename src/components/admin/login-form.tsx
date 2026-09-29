@@ -35,6 +35,9 @@ export function LoginForm() {
     }
   };
 
+  const inputClass =
+    'w-full rounded-xl border border-white/60 bg-white/50 px-4 py-2.5 text-sm text-foreground placeholder:text-slate-400 backdrop-blur transition-all focus:border-primary focus:bg-white/70 focus:outline-none focus:ring-2 focus:ring-primary/30';
+
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div>
@@ -42,7 +45,7 @@ export function LoginForm() {
         <input
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          className="w-full rounded-md border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900"
+          className={inputClass}
           placeholder="admin"
           required
         />
@@ -53,25 +56,23 @@ export function LoginForm() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full rounded-md border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 focus:border-slate-900 focus:outline-none focus:ring-1 focus:ring-slate-900"
+          className={inputClass}
           placeholder="••••••••"
           required
         />
       </div>
       {error && (
-        <div className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-600">{error}</div>
+        <div className="rounded-xl bg-red-500/10 px-4 py-2.5 text-sm text-red-600">{error}</div>
       )}
       <button
         type="submit"
         disabled={loading}
-        className="inline-flex w-full items-center justify-center gap-2 rounded-md bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-slate-800 disabled:opacity-60"
+        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40 disabled:opacity-60"
       >
         {loading && <Loader2 className="h-4 w-4 animate-spin" />}
         登录后台
       </button>
-      <p className="text-center text-xs text-slate-400">
-        默认账号：admin / admin123
-      </p>
+      <p className="text-center text-xs text-slate-400">默认账号：admin / admin123</p>
     </form>
   );
 }
