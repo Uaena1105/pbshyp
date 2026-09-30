@@ -78,6 +78,9 @@
   - `about/` 关于我们；`news/` 新闻列表；`news/[newsSlug]/` 新闻详情；`contact/` 联系我们
 - `src/app/admin/` - 后台（`login` 登录；`(dashboard)` 站点列表与站点编辑器）
 - `src/app/api/admin/` - 后台 API（登录鉴权 + 站点/设置/轮播/分类/产品/新闻/导航 CRUD）
+- `src/app/api/admin/upload/` - 图片上传（鉴权，返回 `key://` 对象存储键）
+- `src/app/api/admin/sites/[id]/dashboard/` - 后台聚合接口（站点/设置/轮播/分类/产品/新闻/导航一次返回）
+- `src/app/api/media/[...key]/` - 媒体对象存储代理（`key://` 前缀 → 签名 URL 302）
 - `src/app/api/init/` - 初始化示例数据
 
 ### 数据库表（Supabase / PostgreSQL）
@@ -87,7 +90,20 @@
 - 鉴权：`src/lib/admin-auth.ts` + `src/lib/admin-request.ts`（session token 存 `admin_sessions`，cookie `admin_token`）
 - 前端数据读取：`src/lib/site-data.ts`（`getSiteBySlug` / `getSiteSettings` / `getNavLinks` / `getProducts` 等）
 - 站点前端组件：`src/components/site/`（header / footer / home-content / whatsapp-float / contact-form）
-- 后台组件：`src/components/admin/`（sites-manager / site-editor / settings-tab / banners-tab / categories-tab / products-tab / news-tab / nav-tab）
+- 后台组件：`src/components/admin/`（sites-manager / site-editor / visual-editor / settings-tab / banners-tab / categories-tab / products-tab / news-tab / nav-tab）
+
+### 可视化所见即所得编辑（WYSIWYG）
+- 站点所有文案/图片均可「小铅笔」点击编辑：`src/components/site/editor.tsx` 提供 `EditorProvider` / `useEditor` / `EditableText` / `EditableImage`
+  - `EditableText` 采用 children 渲染模式（`children` 必填包裹展示内容），`EditableImage` 处理 `key://` 图片为空时的占位
+- 首页可变文案数据化：`site_settings.home_content`（jsonb）承载 hero 标签、优势区、生产流程、数据统计、关于、CTA 等
+  - 类型与默认值：`src/lib/site-data.ts` 的 `HomeContent` / `getDefaultHomeContent()` / `resolveHomeContent()`
+- 后台可视化编辑器：`src/components/admin/visual-editor.tsx`（读取 dashboard 聚合接口，按 field 前缀路由保存）
+- 编辑字段命名约定：
+  - `settings.<camelCase>` → 通过 `SETTINGS_FIELDS` 映射到 `site_settings` 的 snake_case 列（如 `settings.companyName` → `company_name`、`settings.logo` → `logo_url`）
+  - `home.<path>` → 写入 `home_content`（`deepSet` 深路径更新）
+  - `category.<id>.<key>` / `product.<id>.<key>` / `banner.<id>.<key>` / `news.<id>.<key>` → 对应 CRUD 接口
+- 行业模板一键建站：`src/lib/site-templates.ts`（`TEMPLATES` + `getTemplateData()`），`POST /api/admin/sites` 传 `template` 即时创建完整站点
+- 对象存储：`src/lib/storage.ts`（`getStorage()`，仅服务端）；客户端用 `src/lib/media.ts` 的纯函数 `imgSrc()` 做 `key://` 前缀解析
 
 ### 数据库模型维护
 - 表结构定义：`src/storage/database/shared/schema.ts`

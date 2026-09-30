@@ -29,6 +29,109 @@ export interface SiteSettings {
   hero_image: string | null;
   hero_button_text: string | null;
   hero_button_link: string | null;
+  home_content: HomeContent | null;
+}
+
+export interface AdvantageItem {
+  icon: string;
+  title: string;
+  desc: string;
+}
+
+export interface ProcessItem {
+  icon: string;
+  title: string;
+  desc: string;
+}
+
+export interface StatItem {
+  value: string;
+  label: string;
+}
+
+export interface HomeContent {
+  heroTag: string;
+  heroTags: string[];
+  whyTitle: string;
+  whySubtitle: string;
+  advantages: AdvantageItem[];
+  categoriesTitle: string;
+  categoriesSubtitle: string;
+  featuredTitle: string;
+  stats: StatItem[];
+  processTitle: string;
+  processSubtitle: string;
+  process: ProcessItem[];
+  aboutTitle: string;
+  aboutDesc: string;
+  aboutFeatures: string[];
+  newsTitle: string;
+  newsSubtitle: string;
+  ctaTitle: string;
+  ctaDesc: string;
+  ctaButtonText: string;
+}
+
+export function getDefaultHomeContent(): HomeContent {
+  return {
+    heroTag: 'Premium Manufacturer · Direct Factory',
+    heroTags: ['Quality Guaranteed', 'Custom OEM', 'Fast Delivery', 'Global Export'],
+    whyTitle: 'Why Choose Us',
+    whySubtitle: 'Our Advantages',
+    advantages: [
+      { icon: 'Leaf', title: 'Premium Raw Materials', desc: 'Verified raw materials matched to every product model, application and order.' },
+      { icon: 'Ruler', title: 'Custom Size & Logo', desc: 'Custom dimensions, colors, thickness and full-color logo printing with flexible MOQ.' },
+      { icon: 'ShieldCheck', title: 'Strict Quality Control', desc: 'Every batch is inspected against the agreed quality plan and standards.' },
+      { icon: 'Truck', title: 'Fast Delivery', desc: 'Lead time confirmed by model, quantity, customization and order requirements.' },
+      { icon: 'Globe2', title: 'Global Export Experience', desc: 'Exporting worldwide with full familiarity of regional compliance requirements.' },
+      { icon: 'Headset', title: 'Professional Service Team', desc: 'Dedicated account manager, fast response, full follow-up from inquiry to delivery.' },
+    ],
+    categoriesTitle: 'Our Products',
+    categoriesSubtitle: 'Product Range',
+    featuredTitle: 'Featured Products',
+    stats: [
+      { value: '10+', label: 'Years Experience' },
+      { value: '100+', label: 'Product Models' },
+      { value: '30+', label: 'Export Countries' },
+      { value: '500+', label: 'Clients Served' },
+      { value: '98%', label: 'On-time Delivery' },
+      { value: '24h', label: 'Response Time' },
+    ],
+    processTitle: 'Production Process',
+    processSubtitle: 'From Raw Material to Finished Product — Every Step Strictly Controlled',
+    process: [
+      { icon: 'Leaf', title: 'Raw Material Sourcing', desc: 'Verified material options selected according to the confirmed model, application and order.' },
+      { icon: 'Factory', title: 'Manufacturing', desc: 'Production runs under process control for consistent dimensions and quality.' },
+      { icon: 'Printer', title: 'Customization & Printing', desc: 'Color printing follows confirmed artwork and print requirements.' },
+      { icon: 'Ruler', title: 'Cutting & Forming', desc: 'Cutting and forming follow confirmed dimensions and tolerances.' },
+      { icon: 'ShieldCheck', title: 'Quality Inspection', desc: 'Each batch is checked for strength, print quality and other items under the agreed plan.' },
+      { icon: 'Boxes', title: 'Counting & Packing', desc: 'Counting and packing follow confirmed quantities and packing requirements.' },
+      { icon: 'Truck', title: 'Export Shipping', desc: 'International logistics coordinated; trade terms confirmed by product.' },
+      { icon: 'Headset', title: 'After-sales Service', desc: 'Dedicated follow-up, issues responded within 24 hours, priority support for partners.' },
+    ],
+    aboutTitle: 'Established Manufacturer, Global Reach',
+    aboutDesc: 'We focus on the development, production and export of quality products. Material options, dimensions, thickness, color and printing are confirmed by model, application and order.',
+    aboutFeatures: ['Premium materials', 'Custom OEM', 'Quality control', 'Fast delivery'],
+    newsTitle: 'News & Updates',
+    newsSubtitle: 'Industry Trends · Company News · Product Updates',
+    ctaTitle: 'Ready to Work Together?',
+    ctaDesc: 'Tell us your needs and we will reply within 24 hours with a professional quote and sample support.',
+    ctaButtonText: 'Get In Touch',
+  };
+}
+
+export function resolveHomeContent(raw: HomeContent | null | undefined): HomeContent {
+  const defaults = getDefaultHomeContent();
+  if (!raw) return defaults;
+  return {
+    ...defaults,
+    ...raw,
+    advantages: raw.advantages?.length ? raw.advantages : defaults.advantages,
+    heroTags: raw.heroTags?.length ? raw.heroTags : defaults.heroTags,
+    stats: raw.stats?.length ? raw.stats : defaults.stats,
+    process: raw.process?.length ? raw.process : defaults.process,
+    aboutFeatures: raw.aboutFeatures?.length ? raw.aboutFeatures : defaults.aboutFeatures,
+  };
 }
 
 export interface NavLink {

@@ -1,6 +1,9 @@
+'use client';
+
 import Link from 'next/link';
 import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
 import type { SiteSettings, NavLink } from '@/lib/site-data';
+import { EditableText } from './editor';
 
 export function SiteFooter({
   slug,
@@ -23,10 +26,17 @@ export function SiteFooter({
         <div className="grid gap-12 md:grid-cols-3">
           <div>
             <h3 className="text-lg font-bold tracking-tight text-white">{companyName}</h3>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
-              {settings?.seo_description ??
-                'Quality solutions exported worldwide. Trusted by international buyers.'}
-            </p>
+            <EditableText
+              field="settings.seoDescription"
+              label="页脚介绍"
+              value={settings?.seo_description ?? ''}
+              kind="textarea"
+            >
+              <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
+                {settings?.seo_description ??
+                  'Quality solutions exported worldwide. Trusted by international buyers.'}
+              </p>
+            </EditableText>
             {whatsapp && (
               <a
                 href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`}
@@ -91,8 +101,17 @@ export function SiteFooter({
       </div>
       <div className="border-t border-white/10">
         <div className="mx-auto max-w-7xl px-6 py-5 text-center text-xs text-slate-500">
-          {settings?.footer_text ??
-            `© ${new Date().getFullYear()} ${companyName}. All rights reserved.`}
+          <EditableText
+            field="settings.footerText"
+            label="版权文字"
+            value={settings?.footer_text ?? ''}
+            wrapperClassName="inline-flex"
+          >
+            <span>
+              {settings?.footer_text ??
+                `© ${new Date().getFullYear()} ${companyName}. All rights reserved.`}
+            </span>
+          </EditableText>
         </div>
       </div>
     </footer>

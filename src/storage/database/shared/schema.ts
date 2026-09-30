@@ -62,6 +62,7 @@ export const site_settings = pgTable(
     hero_image: varchar("hero_image", { length: 500 }),
     hero_button_text: varchar("hero_button_text", { length: 100 }),
     hero_button_link: varchar("hero_button_link", { length: 500 }),
+    home_content: jsonb("home_content").default(sql`'{}'::jsonb`),
   },
   (table) => [
     index("site_settings_site_id_idx").on(table.site_id),

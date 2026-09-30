@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -12,6 +14,7 @@ import {
   Headset,
   Boxes,
   Sparkles,
+  type LucideIcon,
 } from 'lucide-react';
 import type {
   SiteSettings,
@@ -19,60 +22,27 @@ import type {
   Category,
   Product,
   NewsItem,
+  HomeContent as HomeContentType,
 } from '@/lib/site-data';
+import { EditableText, EditableImage } from './editor';
 
-const advantages = [
-  {
-    icon: Leaf,
-    title: 'Premium Raw Materials',
-    desc: 'HDPE, LDPE, blended-material and recycled-material options are confirmed by model, application and order.',
-  },
-  {
-    icon: Ruler,
-    title: 'Custom Size & Logo',
-    desc: 'Custom size, color, thickness & full-color logo printing. Flexible MOQ.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Strict Quality Control',
-    desc: 'Each batch is checked according to the agreed inspection plan and assessed against confirmed standards.',
-  },
-  {
-    icon: Truck,
-    title: 'Fast Delivery',
-    desc: 'Lead time is confirmed by model, quantity, customization requirements and order.',
-  },
-  {
-    icon: Globe2,
-    title: 'Global Export Experience',
-    desc: 'Exporting to 10+ countries including Japan, South Korea & Southeast Asia. Familiar with regional compliance.',
-  },
-  {
-    icon: Headset,
-    title: 'Professional Service Team',
-    desc: 'Dedicated account manager, fast response, full follow-up from inquiry to delivery.',
-  },
-];
+const iconMap: Record<string, LucideIcon> = {
+  Leaf,
+  Ruler,
+  ShieldCheck,
+  Truck,
+  Globe2,
+  Headset,
+  Factory,
+  Printer,
+  Boxes,
+  Sparkles,
+};
 
-const process = [
-  { icon: Leaf, title: 'Raw Material Sourcing', desc: 'HDPE, LDPE, blended-material or recycled-material options are selected according to the confirmed model, application and order.' },
-  { icon: Factory, title: 'Film Blowing', desc: 'Film is blown to confirmed specifications with process control for thickness and width.' },
-  { icon: Printer, title: 'Color Printing', desc: 'Multi-color flexographic printing follows confirmed artwork and print requirements.' },
-  { icon: Ruler, title: 'Cutting & Forming', desc: 'Cutting and forming follow confirmed dimensions; tolerances are confirmed with each order.' },
-  { icon: ShieldCheck, title: 'Quality Inspection', desc: 'Each batch is checked for thickness, strength, print quality and other items under the agreed inspection plan.' },
-  { icon: Boxes, title: 'Counting & Packing', desc: 'Counting and packing follow confirmed quantities and packing requirements.' },
-  { icon: Truck, title: 'Export Shipping', desc: 'International logistics can be coordinated; trade terms and relevant documents are confirmed by product and available records.' },
-  { icon: Headset, title: 'After-sales Service', desc: 'Dedicated follow-up, issues responded within 24 hours, priority support for long-term partners.' },
-];
-
-const stats = [
-  { value: '2021', label: 'Established' },
-  { value: '3+', label: 'Years Experience' },
-  { value: '46', label: 'SKU Models' },
-  { value: '10+', label: 'Export Countries' },
-  { value: '500+', label: 'Clients Served' },
-  { value: '5000㎡', label: 'Factory Area' },
-];
+function Icon({ name }: { name: string }) {
+  const Cmp = iconMap[name] ?? CheckCircle2;
+  return <Cmp className="h-6 w-6 text-primary" />;
+}
 
 export function HomeContent({
   slug,
@@ -81,6 +51,7 @@ export function HomeContent({
   categories,
   featuredProducts,
   news,
+  home,
 }: {
   slug: string;
   settings: SiteSettings | null;
@@ -88,10 +59,14 @@ export function HomeContent({
   categories: Category[];
   featuredProducts: Product[];
   news: NewsItem[];
+  home: HomeContentType;
 }) {
   const heroImage = settings?.hero_image ?? banners[0]?.image ?? '';
   const heroTitle = settings?.hero_title ?? 'Your Trusted Partner';
   const heroSubtitle = settings?.hero_subtitle ?? '';
+  const heroButtonText = settings?.hero_button_text ?? 'View Products';
+
+  const titleParts = heroTitle.split(' ');
 
   return (
     <div>
@@ -99,41 +74,75 @@ export function HomeContent({
       <section className="relative">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-16 md:grid-cols-2 md:py-24 lg:py-28">
           <div className="flex flex-col items-start">
-            <span className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold text-slate-600">
-              <Sparkles className="h-3.5 w-3.5 text-primary" />
-              Shandong, China · Est. 2021
-            </span>
-            <h1 className="mt-6 text-4xl font-extrabold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              {heroTitle.split(' ').slice(0, -1).join(' ')}{' '}
-              <span className="text-gradient">
-                {heroTitle.split(' ').slice(-1)}
+            <EditableText
+              field="home.heroTag"
+              label="顶部标签"
+              value={home.heroTag}
+              wrapperClassName="inline-flex"
+            >
+              <span className="glass inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold text-slate-600">
+                <Sparkles className="h-3.5 w-3.5 text-primary" />
+                {home.heroTag}
               </span>
-            </h1>
-            {heroSubtitle && (
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-600">
-                {heroSubtitle}
-              </p>
-            )}
+            </EditableText>
+
+            <EditableText field="settings.heroTitle" label="主标题" value={heroTitle}>
+              <h1 className="mt-6 text-4xl font-extrabold leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+                {titleParts.length > 1 ? (
+                  <>
+                    {titleParts.slice(0, -1).join(' ')}{' '}
+                    <span className="text-gradient">{titleParts.slice(-1)}</span>
+                  </>
+                ) : (
+                  <span className="text-gradient">{heroTitle}</span>
+                )}
+              </h1>
+            </EditableText>
+
+            <EditableText
+              field="settings.heroSubtitle"
+              label="副标题"
+              value={heroSubtitle}
+              kind="textarea"
+            >
+              {heroSubtitle && (
+                <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-600">
+                  {heroSubtitle}
+                </p>
+              )}
+            </EditableText>
+
             <div className="mt-6 flex flex-wrap gap-2">
-              {['Material options', 'Confirmed per order', 'Custom OEM', 'Requirements confirmed'].map(
-                (tag) => (
-                  <span
-                    key={tag}
-                    className="glass rounded-full px-3.5 py-1.5 text-xs font-medium text-slate-600"
-                  >
+              {home.heroTags.map((tag, i) => (
+                <EditableText
+                  key={i}
+                  field={`home.heroTags.${i}`}
+                  label={`标签 ${i + 1}`}
+                  value={tag}
+                  wrapperClassName="inline-flex"
+                >
+                  <span className="glass rounded-full px-3.5 py-1.5 text-xs font-medium text-slate-600">
                     {tag}
                   </span>
-                ),
-              )}
+                </EditableText>
+              ))}
             </div>
+
             <div className="mt-9 flex flex-wrap gap-3">
-              <Link
-                href={`/${slug}/products`}
-                className="sheen inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
+              <EditableText
+                field="settings.heroButtonText"
+                label="主按钮文字"
+                value={heroButtonText}
+                wrapperClassName="inline-flex"
               >
-                View Products
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+                <Link
+                  href={`/${slug}/products`}
+                  className="sheen inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
+                >
+                  {heroButtonText}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </EditableText>
               <Link
                 href={`/${slug}/contact`}
                 className="glass-btn inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-foreground"
@@ -146,11 +155,12 @@ export function HomeContent({
           {heroImage && (
             <div className="relative">
               <div className="glass-card float-slow overflow-hidden rounded-[2rem] p-2">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={heroImage}
+                <EditableImage
+                  field="settings.heroImage"
+                  label="首页主图"
+                  value={heroImage}
                   alt={heroTitle}
-                  className="h-full min-h-[300px] w-full rounded-[1.6rem] object-cover"
+                  imgClassName="h-full min-h-[300px] w-full rounded-[1.6rem] object-cover"
                 />
               </div>
             </div>
@@ -162,21 +172,43 @@ export function HomeContent({
       <section className="py-16">
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center">
-            <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-              Why Choose <span className="text-gradient">Us</span>
-            </h2>
-            <p className="mt-3 text-slate-500">Our Advantages</p>
+            <EditableText field="home.whyTitle" label="优势区标题" value={home.whyTitle}>
+              <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+                {home.whyTitle}
+              </h2>
+            </EditableText>
+            <EditableText
+              field="home.whySubtitle"
+              label="优势区副标题"
+              value={home.whySubtitle}
+              wrapperClassName="inline-flex"
+            >
+              <p className="mt-3 text-slate-500">{home.whySubtitle}</p>
+            </EditableText>
           </div>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {advantages.map((item) => (
-              <div key={item.title} className="glass-card rounded-2xl p-7">
+            {home.advantages.map((item, i) => (
+              <div key={i} className="glass-card rounded-2xl p-7">
                 <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10">
-                  <item.icon className="h-6 w-6 text-primary" />
+                  <Icon name={item.icon} />
                 </div>
-                <h3 className="mt-5 text-lg font-bold tracking-tight text-foreground">
-                  {item.title}
-                </h3>
-                <p className="mt-2.5 text-sm leading-relaxed text-slate-600">{item.desc}</p>
+                <EditableText
+                  field={`home.advantages.${i}.title`}
+                  label={`优势 ${i + 1} 标题`}
+                  value={item.title}
+                >
+                  <h3 className="mt-5 text-lg font-bold tracking-tight text-foreground">
+                    {item.title}
+                  </h3>
+                </EditableText>
+                <EditableText
+                  field={`home.advantages.${i}.desc`}
+                  label={`优势 ${i + 1} 描述`}
+                  value={item.desc}
+                  kind="textarea"
+                >
+                  <p className="mt-2.5 text-sm leading-relaxed text-slate-600">{item.desc}</p>
+                </EditableText>
               </div>
             ))}
           </div>
@@ -188,10 +220,23 @@ export function HomeContent({
         <section className="py-16">
           <div className="mx-auto max-w-7xl px-6">
             <div className="text-center">
-              <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-                Our <span className="text-gradient">Products</span>
-              </h2>
-              <p className="mt-3 text-slate-500">Product Range</p>
+              <EditableText
+                field="home.categoriesTitle"
+                label="分类区标题"
+                value={home.categoriesTitle}
+              >
+                <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+                  {home.categoriesTitle}
+                </h2>
+              </EditableText>
+              <EditableText
+                field="home.categoriesSubtitle"
+                label="分类区副标题"
+                value={home.categoriesSubtitle}
+                wrapperClassName="inline-flex"
+              >
+                <p className="mt-3 text-slate-500">{home.categoriesSubtitle}</p>
+              </EditableText>
             </div>
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {categories.map((cat) => (
@@ -202,20 +247,36 @@ export function HomeContent({
                 >
                   <div className="overflow-hidden">
                     {cat.image && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={cat.image}
+                      <EditableImage
+                        field={`category.${cat.id}.image`}
+                        label="分类图片"
+                        value={cat.image}
                         alt={cat.name}
-                        className="h-52 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                        imgClassName="h-52 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                       />
                     )}
                   </div>
                   <div className="p-6">
-                    <h3 className="text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
-                      {cat.name}
-                    </h3>
+                    <EditableText
+                      field={`category.${cat.id}.name`}
+                      label="分类名称"
+                      value={cat.name}
+                    >
+                      <h3 className="text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                        {cat.name}
+                      </h3>
+                    </EditableText>
                     {cat.description && (
-                      <p className="mt-2 line-clamp-2 text-sm text-slate-600">{cat.description}</p>
+                      <EditableText
+                        field={`category.${cat.id}.description`}
+                        label="分类描述"
+                        value={cat.description}
+                        kind="textarea"
+                      >
+                        <p className="mt-2 line-clamp-2 text-sm text-slate-600">
+                          {cat.description}
+                        </p>
+                      </EditableText>
                     )}
                   </div>
                 </Link>
@@ -230,11 +291,15 @@ export function HomeContent({
         <section className="py-16">
           <div className="mx-auto max-w-7xl px-6">
             <div className="flex items-end justify-between">
-              <div>
+              <EditableText
+                field="home.featuredTitle"
+                label="精选产品标题"
+                value={home.featuredTitle}
+              >
                 <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-                  Featured <span className="text-gradient">Products</span>
+                  {home.featuredTitle}
                 </h2>
-              </div>
+              </EditableText>
               <Link
                 href={`/${slug}/products`}
                 className="inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:brightness-110"
@@ -252,23 +317,37 @@ export function HomeContent({
                 >
                   <div className="overflow-hidden rounded-xl">
                     {product.main_image && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={product.main_image}
+                      <EditableImage
+                        field={`product.${product.id}.mainImage`}
+                        label="产品主图"
+                        value={product.main_image}
                         alt={product.name}
-                        className="h-44 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                        imgClassName="h-44 w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                       />
                     )}
                   </div>
                   <div className="p-4">
-                    <h3 className="font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
-                      {product.name}
-                    </h3>
+                    <EditableText
+                      field={`product.${product.id}.name`}
+                      label="产品名称"
+                      value={product.name}
+                    >
+                      <h3 className="font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                        {product.name}
+                      </h3>
+                    </EditableText>
                     {product.model && <p className="mt-1 text-xs text-slate-400">{product.model}</p>}
                     {product.short_description && (
-                      <p className="mt-2 line-clamp-2 text-sm text-slate-600">
-                        {product.short_description}
-                      </p>
+                      <EditableText
+                        field={`product.${product.id}.shortDescription`}
+                        label="产品简介"
+                        value={product.short_description}
+                        kind="textarea"
+                      >
+                        <p className="mt-2 line-clamp-2 text-sm text-slate-600">
+                          {product.short_description}
+                        </p>
+                      </EditableText>
                     )}
                   </div>
                 </Link>
@@ -282,14 +361,26 @@ export function HomeContent({
       <section className="py-16">
         <div className="mx-auto max-w-7xl px-6">
           <div className="glass-card grid grid-cols-2 gap-8 rounded-[2rem] p-10 text-center sm:grid-cols-3 lg:grid-cols-6">
-            {stats.map((s) => (
-              <div key={s.label}>
-                <div className="text-gradient text-3xl font-extrabold tracking-tight sm:text-4xl">
-                  {s.value}
-                </div>
-                <div className="mt-2 text-xs font-medium uppercase tracking-wider text-slate-500">
-                  {s.label}
-                </div>
+            {home.stats.map((s, i) => (
+              <div key={i}>
+                <EditableText
+                  field={`home.stats.${i}.value`}
+                  label={`数据 ${i + 1} 数值`}
+                  value={s.value}
+                >
+                  <div className="text-gradient text-3xl font-extrabold tracking-tight sm:text-4xl">
+                    {s.value}
+                  </div>
+                </EditableText>
+                <EditableText
+                  field={`home.stats.${i}.label`}
+                  label={`数据 ${i + 1} 标签`}
+                  value={s.label}
+                >
+                  <div className="mt-2 text-xs font-medium uppercase tracking-wider text-slate-500">
+                    {s.label}
+                  </div>
+                </EditableText>
               </div>
             ))}
           </div>
@@ -300,22 +391,49 @@ export function HomeContent({
       <section className="py-16">
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center">
-            <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-              Production <span className="text-gradient">Process</span>
-            </h2>
-            <p className="mt-3 text-slate-500">
-              From Raw Material to Finished Product — Every Step Strictly Controlled
-            </p>
+            <EditableText
+              field="home.processTitle"
+              label="流程区标题"
+              value={home.processTitle}
+            >
+              <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+                {home.processTitle}
+              </h2>
+            </EditableText>
+            <EditableText
+              field="home.processSubtitle"
+              label="流程区副标题"
+              value={home.processSubtitle}
+              kind="textarea"
+              wrapperClassName="inline-flex"
+            >
+              <p className="mt-3 text-slate-500">{home.processSubtitle}</p>
+            </EditableText>
           </div>
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {process.map((item, idx) => (
-              <div key={item.title} className="glass-card relative rounded-2xl p-6">
+            {home.process.map((item, idx) => (
+              <div key={idx} className="glass-card relative rounded-2xl p-6">
                 <span className="absolute right-5 top-5 text-3xl font-extrabold tracking-tight text-slate-200">
                   {String(idx + 1).padStart(2, '0')}
                 </span>
-                <item.icon className="h-7 w-7 text-primary" />
-                <h3 className="mt-4 font-bold tracking-tight text-foreground">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.desc}</p>
+                <Icon name={item.icon} />
+                <EditableText
+                  field={`home.process.${idx}.title`}
+                  label={`步骤 ${idx + 1} 标题`}
+                  value={item.title}
+                >
+                  <h3 className="mt-4 font-bold tracking-tight text-foreground">
+                    {item.title}
+                  </h3>
+                </EditableText>
+                <EditableText
+                  field={`home.process.${idx}.desc`}
+                  label={`步骤 ${idx + 1} 描述`}
+                  value={item.desc}
+                  kind="textarea"
+                >
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">{item.desc}</p>
+                </EditableText>
               </div>
             ))}
           </div>
@@ -326,20 +444,36 @@ export function HomeContent({
       <section className="py-16">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 md:grid-cols-2">
           <div>
-            <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-              Established Manufacturer, <span className="text-gradient">Global Reach</span>
-            </h2>
-            <p className="mt-5 leading-relaxed text-slate-600">
-              {settings?.company_name ?? 'Our company'} focuses on the development, production and
-              export of quality products. Material options, dimensions, thickness, color and
-              printing are confirmed by model, application and order.
-            </p>
+            <EditableText
+              field="home.aboutTitle"
+              label="关于区标题"
+              value={home.aboutTitle}
+            >
+              <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+                {home.aboutTitle}
+              </h2>
+            </EditableText>
+            <EditableText
+              field="home.aboutDesc"
+              label="关于区描述"
+              value={home.aboutDesc}
+              kind="textarea"
+            >
+              <p className="mt-5 leading-relaxed text-slate-600">{home.aboutDesc}</p>
+            </EditableText>
             <div className="mt-7 grid grid-cols-2 gap-4">
-              {['Premium materials', 'Custom OEM', 'Quality control', 'Fast delivery'].map((f) => (
-                <div key={f} className="flex items-center gap-2.5 text-sm font-medium text-slate-700">
-                  <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />
-                  {f}
-                </div>
+              {home.aboutFeatures.map((f, i) => (
+                <EditableText
+                  key={i}
+                  field={`home.aboutFeatures.${i}`}
+                  label={`特点 ${i + 1}`}
+                  value={f}
+                >
+                  <div className="flex items-center gap-2.5 text-sm font-medium text-slate-700">
+                    <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />
+                    {f}
+                  </div>
+                </EditableText>
               ))}
             </div>
             <Link
@@ -356,11 +490,12 @@ export function HomeContent({
                 key={b.id}
                 className={`glass-card overflow-hidden rounded-3xl p-2 ${i === 0 ? 'mt-8' : ''}`}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={b.image}
+                <EditableImage
+                  field={`banner.${b.id}.image`}
+                  label="展示图片"
+                  value={b.image}
                   alt={b.title ?? ''}
-                  className="h-full w-full rounded-2xl object-cover"
+                  imgClassName="h-full w-full rounded-2xl object-cover"
                 />
               </div>
             ))}
@@ -374,12 +509,23 @@ export function HomeContent({
           <div className="mx-auto max-w-7xl px-6">
             <div className="flex items-end justify-between">
               <div>
-                <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-                  News & <span className="text-gradient">Updates</span>
-                </h2>
-                <p className="mt-3 text-slate-500">
-                  Industry Trends · Company News · Product Updates
-                </p>
+                <EditableText
+                  field="home.newsTitle"
+                  label="新闻区标题"
+                  value={home.newsTitle}
+                >
+                  <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+                    {home.newsTitle}
+                  </h2>
+                </EditableText>
+                <EditableText
+                  field="home.newsSubtitle"
+                  label="新闻区副标题"
+                  value={home.newsSubtitle}
+                  wrapperClassName="inline-flex"
+                >
+                  <p className="mt-3 text-slate-500">{home.newsSubtitle}</p>
+                </EditableText>
               </div>
               <Link
                 href={`/${slug}/news`}
@@ -399,11 +545,24 @@ export function HomeContent({
                   <span className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
                     {item.category}
                   </span>
-                  <h3 className="mt-4 font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
-                    {item.title}
-                  </h3>
+                  <EditableText
+                    field={`news.${item.id}.title`}
+                    label="新闻标题"
+                    value={item.title}
+                  >
+                    <h3 className="mt-4 font-bold tracking-tight text-foreground transition-colors group-hover:text-primary">
+                      {item.title}
+                    </h3>
+                  </EditableText>
                   {item.summary && (
-                    <p className="mt-2.5 line-clamp-3 text-sm text-slate-600">{item.summary}</p>
+                    <EditableText
+                      field={`news.${item.id}.summary`}
+                      label="新闻摘要"
+                      value={item.summary}
+                      kind="textarea"
+                    >
+                      <p className="mt-2.5 line-clamp-3 text-sm text-slate-600">{item.summary}</p>
+                    </EditableText>
                   )}
                 </Link>
               ))}
@@ -419,20 +578,34 @@ export function HomeContent({
             <div className="aurora left-[-10%] top-[-30%] h-72 w-72 bg-sky-400/40" />
             <div className="aurora right-[-10%] bottom-[-30%] h-72 w-72 bg-violet-400/40" />
             <div className="relative">
-              <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
-                Ready to <span className="text-gradient">Work Together?</span>
-              </h2>
-              <p className="mx-auto mt-4 max-w-xl text-slate-600">
-                Tell us your needs and we&apos;ll reply within 24 hours with a professional quote
-                and sample support.
-              </p>
-              <Link
-                href={`/${slug}/contact`}
-                className="mt-9 inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
+              <EditableText field="home.ctaTitle" label="CTA 标题" value={home.ctaTitle}>
+                <h2 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+                  {home.ctaTitle}
+                </h2>
+              </EditableText>
+              <EditableText
+                field="home.ctaDesc"
+                label="CTA 描述"
+                value={home.ctaDesc}
+                kind="textarea"
+                wrapperClassName="inline-flex"
               >
-                Get In Touch
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+                <p className="mx-auto mt-4 max-w-xl text-slate-600">{home.ctaDesc}</p>
+              </EditableText>
+              <EditableText
+                field="home.ctaButtonText"
+                label="CTA 按钮文字"
+                value={home.ctaButtonText}
+                wrapperClassName="inline-flex"
+              >
+                <Link
+                  href={`/${slug}/contact`}
+                  className="mt-9 inline-flex items-center gap-2 rounded-full bg-primary px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
+                >
+                  {home.ctaButtonText}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </EditableText>
             </div>
           </div>
         </div>

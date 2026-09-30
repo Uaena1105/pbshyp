@@ -6,6 +6,7 @@ import {
   getCategories,
   getFeaturedProducts,
   getNews,
+  resolveHomeContent,
 } from '@/lib/site-data';
 import { HomeContent } from '@/components/site/home-content';
 
@@ -28,6 +29,8 @@ export default async function SiteHomePage({
     getNews(site.id, 6),
   ]);
 
+  const home = resolveHomeContent(settings?.home_content);
+
   return (
     <HomeContent
       slug={slug}
@@ -36,6 +39,7 @@ export default async function SiteHomePage({
       categories={categories}
       featuredProducts={featuredProducts}
       news={news}
+      home={home}
     />
   );
 }

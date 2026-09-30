@@ -35,6 +35,7 @@ export async function PUT(
     'company_name', 'logo_url', 'favicon_url', 'whatsapp', 'phone', 'email', 'address',
     'seo_title', 'seo_description', 'seo_keywords', 'footer_text', 'primary_color',
     'hero_title', 'hero_subtitle', 'hero_image', 'hero_button_text', 'hero_button_link',
+    'home_content',
   ];
 
   const patch: Record<string, unknown> = {};
