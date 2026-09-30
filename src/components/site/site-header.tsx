@@ -3,23 +3,26 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Phone, Mail, MessageCircle, Menu, X, ArrowRight } from 'lucide-react';
-import type { SiteSettings, NavLink } from '@/lib/site-data';
+import type { SiteSettings, NavLink, HomeContent } from '@/lib/site-data';
 import { EditableText, EditableImage } from './editor';
 
 export function SiteHeader({
   slug,
   settings,
   navLinks,
+  home,
 }: {
   slug: string;
   settings: SiteSettings | null;
   navLinks: NavLink[];
+  home?: HomeContent | null;
 }) {
   const [open, setOpen] = useState(false);
   const companyName = settings?.company_name ?? 'Company Name';
   const phone = settings?.phone ?? '';
   const email = settings?.email ?? '';
   const whatsapp = settings?.whatsapp ?? '';
+  const quoteButtonText = home?.quoteButtonText ?? 'Request a Quote';
 
   return (
     <header className="glass-nav sticky top-0 z-50 w-full">
@@ -37,33 +40,54 @@ export function SiteHeader({
           </div>
           <div className="flex items-center gap-5">
             {phone && (
-              <a
-                href={`tel:${phone}`}
-                className="flex items-center gap-1.5 transition-colors hover:text-primary"
+              <EditableText
+                field="settings.phone"
+                label="联系电话"
+                value={phone}
+                wrapperClassName="inline-flex"
               >
-                <Phone className="h-3.5 w-3.5" />
-                {phone}
-              </a>
+                <a
+                  href={`tel:${phone}`}
+                  className="flex items-center gap-1.5 transition-colors hover:text-primary"
+                >
+                  <Phone className="h-3.5 w-3.5" />
+                  {phone}
+                </a>
+              </EditableText>
             )}
             {email && (
-              <a
-                href={`mailto:${email}`}
-                className="flex items-center gap-1.5 transition-colors hover:text-primary"
+              <EditableText
+                field="settings.email"
+                label="邮箱"
+                value={email}
+                wrapperClassName="inline-flex"
               >
-                <Mail className="h-3.5 w-3.5" />
-                {email}
-              </a>
+                <a
+                  href={`mailto:${email}`}
+                  className="flex items-center gap-1.5 transition-colors hover:text-primary"
+                >
+                  <Mail className="h-3.5 w-3.5" />
+                  {email}
+                </a>
+              </EditableText>
             )}
             {whatsapp && (
-              <a
-                href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1.5 transition-colors hover:text-primary"
+              <EditableText
+                field="settings.whatsapp"
+                label="WhatsApp"
+                value={whatsapp}
+                wrapperClassName="inline-flex"
               >
-                <MessageCircle className="h-3.5 w-3.5" />
-                WhatsApp
-              </a>
+                <a
+                  href={`https://wa.me/${whatsapp.replace(/[^0-9]/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 transition-colors hover:text-primary"
+                >
+                  <MessageCircle className="h-3.5 w-3.5" />
+                  WhatsApp
+                </a>
+              </EditableText>
             )}
           </div>
         </div>
@@ -97,25 +121,39 @@ export function SiteHeader({
           {navLinks.map((link) => {
             const href = link.href ? `/${slug}/${link.href}` : `/${slug}`;
             return (
-              <Link
+              <EditableText
                 key={link.id}
-                href={href}
-                className="rounded-full px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-white/60 hover:text-primary"
+                field={`nav.${link.id}.label`}
+                label="导航名称"
+                value={link.label}
+                wrapperClassName="inline-flex"
               >
-                {link.label}
-              </Link>
+                <Link
+                  href={href}
+                  className="rounded-full px-4 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-white/60 hover:text-primary"
+                >
+                  {link.label}
+                </Link>
+              </EditableText>
             );
           })}
         </nav>
 
         <div className="flex items-center gap-3">
-          <Link
-            href={`/${slug}/contact`}
-            className="sheen hidden items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:shadow-xl hover:shadow-primary/30 hover:brightness-105 sm:inline-flex"
+          <EditableText
+            field="home.quoteButtonText"
+            label="询价按钮"
+            value={quoteButtonText}
+            wrapperClassName="hidden sm:inline-flex"
           >
-            Request a Quote
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+            <Link
+              href={`/${slug}/contact`}
+              className="sheen inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:shadow-xl hover:shadow-primary/30 hover:brightness-105"
+            >
+              {quoteButtonText}
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </EditableText>
           <button
             onClick={() => setOpen((v) => !v)}
             className="glass-btn inline-flex h-10 w-10 items-center justify-center rounded-full text-foreground lg:hidden"
@@ -143,14 +181,21 @@ export function SiteHeader({
                 </Link>
               );
             })}
-            <Link
-              href={`/${slug}/contact`}
-              onClick={() => setOpen(false)}
-              className="mt-2 inline-flex items-center justify-center gap-1.5 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white"
+            <EditableText
+              field="home.quoteButtonText"
+              label="询价按钮"
+              value={quoteButtonText}
+              wrapperClassName="mt-2 inline-flex"
             >
-              Request a Quote
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+              <Link
+                href={`/${slug}/contact`}
+                onClick={() => setOpen(false)}
+                className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white"
+              >
+                {quoteButtonText}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </EditableText>
           </nav>
         </div>
       )}

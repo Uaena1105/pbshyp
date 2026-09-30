@@ -52,7 +52,7 @@ function PencilBadge({ onClick, title }: { onClick: () => void; title?: string }
         onClick();
       }}
       title={title ?? '编辑'}
-      className="pointer-events-auto absolute right-2 top-2 z-20 inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary text-white opacity-0 shadow-lg shadow-primary/40 transition-all hover:scale-110 group-hover/editable:opacity-100"
+      className="pointer-events-auto absolute right-2 top-2 z-20 inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary text-white opacity-70 shadow-lg shadow-primary/40 ring-2 ring-white/70 transition-all hover:scale-110 hover:opacity-100 group-hover/editable:opacity-100"
     >
       <Pencil className="h-3.5 w-3.5" />
     </button>
@@ -82,7 +82,7 @@ export function EditableText({
   if (!editable) return <>{children}</>;
 
   return (
-    <div className={cn('group/editable relative rounded-lg outline-dashed outline-1 outline-transparent transition-all hover:outline-primary/40', className, wrapperClassName)}>
+    <div className={cn('group/editable relative rounded-lg outline-dashed outline-1 outline-primary/20 transition-all hover:outline-primary/50', className, wrapperClassName)}>
       {children}
       <PencilBadge
         onClick={() => edit({ field, label, value, kind })}
@@ -139,7 +139,7 @@ export function EditableImage({
           e.stopPropagation();
           edit({ field, label, value, kind: 'image' });
         }}
-        className="pointer-events-auto absolute right-2 top-2 z-20 inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-white opacity-0 shadow-lg shadow-primary/40 transition-all hover:scale-105 group-hover/editable:opacity-100"
+        className="pointer-events-auto absolute right-2 top-2 z-20 inline-flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-xs font-semibold text-white opacity-80 shadow-lg shadow-primary/40 ring-2 ring-white/70 transition-all hover:scale-105 hover:opacity-100 group-hover/editable:opacity-100"
       >
         <ImagePlus className="h-3.5 w-3.5" />
         更换图片

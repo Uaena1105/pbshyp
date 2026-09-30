@@ -70,6 +70,11 @@ export interface HomeContent {
   ctaTitle: string;
   ctaDesc: string;
   ctaButtonText: string;
+  heroSecondaryButton: string;
+  viewAllText: string;
+  learnMoreText: string;
+  readMoreText: string;
+  quoteButtonText: string;
 }
 
 export function getDefaultHomeContent(): HomeContent {
@@ -117,6 +122,11 @@ export function getDefaultHomeContent(): HomeContent {
     ctaTitle: 'Ready to Work Together?',
     ctaDesc: 'Tell us your needs and we will reply within 24 hours with a professional quote and sample support.',
     ctaButtonText: 'Get In Touch',
+    heroSecondaryButton: 'Contact Us',
+    viewAllText: 'View All',
+    learnMoreText: 'Learn More',
+    readMoreText: 'Read More',
+    quoteButtonText: 'Request a Quote',
   };
 }
 

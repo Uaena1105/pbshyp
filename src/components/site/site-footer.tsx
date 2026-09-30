@@ -76,23 +76,44 @@ export function SiteFooter({
               {address && (
                 <li className="flex gap-2.5">
                   <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-sky-400" />
-                  <span>{address}</span>
+                  <EditableText
+                    field="settings.address"
+                    label="地址"
+                    value={address}
+                    wrapperClassName="inline-flex"
+                  >
+                    <span>{address}</span>
+                  </EditableText>
                 </li>
               )}
               {phone && (
                 <li className="flex gap-2.5">
                   <Phone className="mt-0.5 h-4 w-4 shrink-0 text-sky-400" />
-                  <a href={`tel:${phone}`} className="hover:text-white">
-                    {phone}
-                  </a>
+                  <EditableText
+                    field="settings.phone"
+                    label="联系电话"
+                    value={phone}
+                    wrapperClassName="inline-flex"
+                  >
+                    <a href={`tel:${phone}`} className="hover:text-white">
+                      {phone}
+                    </a>
+                  </EditableText>
                 </li>
               )}
               {email && (
                 <li className="flex gap-2.5">
                   <Mail className="mt-0.5 h-4 w-4 shrink-0 text-sky-400" />
-                  <a href={`mailto:${email}`} className="hover:text-white">
-                    {email}
-                  </a>
+                  <EditableText
+                    field="settings.email"
+                    label="邮箱"
+                    value={email}
+                    wrapperClassName="inline-flex"
+                  >
+                    <a href={`mailto:${email}`} className="hover:text-white">
+                      {email}
+                    </a>
+                  </EditableText>
                 </li>
               )}
             </ul>

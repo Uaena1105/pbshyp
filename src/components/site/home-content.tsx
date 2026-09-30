@@ -143,12 +143,19 @@ export function HomeContent({
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </EditableText>
-              <Link
-                href={`/${slug}/contact`}
-                className="glass-btn inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-foreground"
+              <EditableText
+                field="home.heroSecondaryButton"
+                label="副按钮文字"
+                value={home.heroSecondaryButton}
+                wrapperClassName="inline-flex"
               >
-                Contact Us
-              </Link>
+                <Link
+                  href={`/${slug}/contact`}
+                  className="glass-btn inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold text-foreground"
+                >
+                  {home.heroSecondaryButton}
+                </Link>
+              </EditableText>
             </div>
           </div>
 
@@ -300,13 +307,20 @@ export function HomeContent({
                   {home.featuredTitle}
                 </h2>
               </EditableText>
-              <Link
-                href={`/${slug}/products`}
-                className="inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:brightness-110"
+              <EditableText
+                field="home.viewAllText"
+                label="查看全部按钮"
+                value={home.viewAllText}
+                wrapperClassName="inline-flex"
               >
-                View All
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+                <Link
+                  href={`/${slug}/products`}
+                  className="inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:brightness-110"
+                >
+                  {home.viewAllText}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </EditableText>
             </div>
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {featuredProducts.map((product) => (
@@ -476,13 +490,20 @@ export function HomeContent({
                 </EditableText>
               ))}
             </div>
-            <Link
-              href={`/${slug}/about`}
-              className="mt-9 inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
+            <EditableText
+              field="home.learnMoreText"
+              label="了解更多按钮"
+              value={home.learnMoreText}
+              wrapperClassName="mt-9 inline-flex"
             >
-              Learn More
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+              <Link
+                href={`/${slug}/about`}
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
+              >
+                {home.learnMoreText}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </EditableText>
           </div>
           <div className="grid grid-cols-2 gap-4">
             {banners.slice(0, 2).map((b, i) => (
@@ -527,13 +548,20 @@ export function HomeContent({
                   <p className="mt-3 text-slate-500">{home.newsSubtitle}</p>
                 </EditableText>
               </div>
-              <Link
-                href={`/${slug}/news`}
-                className="inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:brightness-110"
+              <EditableText
+                field="home.readMoreText"
+                label="阅读更多按钮"
+                value={home.readMoreText}
+                wrapperClassName="inline-flex"
               >
-                Read More
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+                <Link
+                  href={`/${slug}/news`}
+                  className="inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:brightness-110"
+                >
+                  {home.readMoreText}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </EditableText>
             </div>
             <div className="mt-12 grid gap-6 md:grid-cols-3">
               {news.slice(0, 3).map((item) => (

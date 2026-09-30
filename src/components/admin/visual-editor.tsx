@@ -49,11 +49,19 @@ interface Dashboard {
 const SETTINGS_FIELDS: Record<string, string> = {
   companyName: 'company_name',
   logo: 'logo_url',
+  favicon: 'favicon_url',
+  whatsapp: 'whatsapp',
+  phone: 'phone',
+  email: 'email',
+  address: 'address',
   heroTitle: 'hero_title',
   heroSubtitle: 'hero_subtitle',
   heroButtonText: 'hero_button_text',
+  heroButtonLink: 'hero_button_link',
   heroImage: 'hero_image',
+  seoTitle: 'seo_title',
   seoDescription: 'seo_description',
+  seoKeywords: 'seo_keywords',
   footerText: 'footer_text',
 };
 
@@ -185,6 +193,13 @@ export function VisualEditor({
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ [column]: value }),
           });
+        } else if (field.startsWith('nav.')) {
+          const [, id, key] = field.split('.');
+          await fetch(`/api/admin/nav/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ [key === 'href' ? 'href' : 'label']: value }),
+          });
         } else {
           throw new Error('未知字段');
         }
@@ -280,7 +295,12 @@ export function VisualEditor({
 
       {/* 站点预览（复用真实前台组件） */}
       <div className="rounded-[2rem] border border-white/60 bg-background/70 shadow-[0_12px_44px_rgba(10,84,255,0.08)] backdrop-blur-xl">
-        <SiteHeader slug={slug} settings={data.settings} navLinks={data.navLinks} />
+        <SiteHeader
+          slug={slug}
+          settings={data.settings}
+          navLinks={data.navLinks}
+          home={data.settings?.home_content ?? null}
+        />
         <HomeContent
           slug={slug}
           settings={data.settings}

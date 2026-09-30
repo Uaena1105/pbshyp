@@ -1,6 +1,11 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { getSiteBySlug, getSiteSettings, getNavLinks } from '@/lib/site-data';
+import {
+  getSiteBySlug,
+  getSiteSettings,
+  getNavLinks,
+  resolveHomeContent,
+} from '@/lib/site-data';
 import { SiteHeader } from '@/components/site/site-header';
 import { SiteFooter } from '@/components/site/site-footer';
 import { WhatsAppFloat } from '@/components/site/whatsapp-float';
@@ -52,7 +57,12 @@ export default async function SiteLayout({
         />
       </div>
 
-      <SiteHeader slug={slug} settings={settings} navLinks={navLinks} />
+      <SiteHeader
+        slug={slug}
+        settings={settings}
+        navLinks={navLinks}
+        home={resolveHomeContent(settings?.home_content)}
+      />
       <main>{children}</main>
       <SiteFooter slug={slug} settings={settings} navLinks={navLinks} />
       <WhatsAppFloat whatsapp={settings?.whatsapp ?? undefined} />
