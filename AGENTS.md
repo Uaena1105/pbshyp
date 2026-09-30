@@ -104,6 +104,7 @@
   - `category.<id>.<key>` / `product.<id>.<key>` / `banner.<id>.<key>` / `news.<id>.<key>` → 对应 CRUD 接口
 - 行业模板一键建站：`src/lib/site-templates.ts`（`TEMPLATES` + `getTemplateData()`），`POST /api/admin/sites` 传 `template` 即时创建完整站点
 - 对象存储：`src/lib/storage.ts`（`getStorage()`，仅服务端）；客户端用 `src/lib/media.ts` 的纯函数 `imgSrc()` 做 `key://` 前缀解析
+- 自定服务端 `src/server.ts`：生产由 `scripts/start.sh` 用 `node dist/server.js` 启动；**不要**手动 `url.parse(req.url)` 再传给 `handle`（`url.parse` 的 pathname 不解码 `%5Bid%5D`，会导致含方括号的动态路由 chunk 静态文件 404 + 前端 `ChunkLoadError`），直接 `handle(req, res)` 让 Next.js 自行解析即可
 
 ### 数据库模型维护
 - 表结构定义：`src/storage/database/shared/schema.ts`
