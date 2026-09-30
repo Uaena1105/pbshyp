@@ -77,6 +77,7 @@
   - `page.tsx` 首页；`products/` 产品中心；`products/[productSlug]/` 产品详情
   - `about/` 关于我们；`news/` 新闻列表；`news/[newsSlug]/` 新闻详情；`contact/` 联系我们
 - `src/app/admin/` - 后台（`login` 登录；`(dashboard)` 站点列表与站点编辑器）
+  - 站点编辑器路由为 `(dashboard)/sites/edit`，站点 ID 通过 `?id=` 查询参数传递（**不是**动态路由段 `sites/[id]`，原因见下方「chunk 404 规避」）
 - `src/app/api/admin/` - 后台 API（登录鉴权 + 站点/设置/轮播/分类/产品/新闻/导航 CRUD）
 - `src/app/api/admin/upload/` - 图片上传（鉴权，返回 `key://` 对象存储键）
 - `src/app/api/admin/sites/[id]/dashboard/` - 后台聚合接口（站点/设置/轮播/分类/产品/新闻/导航一次返回）
@@ -103,6 +104,11 @@
   - `home.<path>` → 写入 `home_content`（`deepSet` 深路径更新）
   - `category.<id>.<key>` / `product.<id>.<key>` / `banner.<id>.<key>` / `news.<id>.<key>` → 对应 CRUD 接口
 - 行业模板一键建站：`src/lib/site-templates.ts`（`TEMPLATES` + `getTemplateData()`），`POST /api/admin/sites` 传 `template` 即时创建完整站点
+
+### 生产 chunk 404 规避（重要）
+- 站点编辑器路由改用 `(dashboard)/sites/edit` + `?id=` 查询参数，而非动态路由段 `sites/[id]`。
+- 原因：生产 CDN 会把「route group 圆括号 `()` + 动态路由方括号 `[]`」组合的 `/_next/static/` chunk 路径（如 `app/admin/(dashboard)/sites/[id]/page-xxx.js`）错误解码/改写，导致源站 404、前端 `ChunkLoadError` 白屏。
+- 单独圆括号（`(dashboard)/layout`）或单独方括号（`[slug]`、`[productSlug]`）在生产均正常，仅「圆括号+方括号」同时出现触发 404。因此编辑器 chunk 路径保留圆括号、去掉方括号。
 - 对象存储：`src/lib/storage.ts`（`getStorage()`，仅服务端）；客户端用 `src/lib/media.ts` 的纯函数 `imgSrc()` 做 `key://` 前缀解析
 - 自定服务端 `src/server.ts`：生产由 `scripts/start.sh` 用 `node dist/server.js` 启动；**不要**手动 `url.parse(req.url)` 再传给 `handle`（`url.parse` 的 pathname 不解码 `%5Bid%5D`，会导致含方括号的动态路由 chunk 静态文件 404 + 前端 `ChunkLoadError`），直接 `handle(req, res)` 让 Next.js 自行解析即可
 

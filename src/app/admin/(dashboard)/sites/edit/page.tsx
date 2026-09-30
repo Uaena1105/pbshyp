@@ -5,16 +5,19 @@ import { SiteEditor } from '@/components/admin/site-editor';
 export const dynamic = 'force-dynamic';
 
 export default async function SiteEditPage({
-  params,
+  searchParams,
 }: {
-  params: Promise<{ id: string }>;
+  searchParams: Promise<{ id?: string }>;
 }) {
-  const { id } = await params;
+  const { id } = await searchParams;
+  const siteId = Number(id);
+  if (!id || Number.isNaN(siteId)) notFound();
+
   const client = getSupabaseClient();
   const { data: site, error } = await client
     .from('sites')
     .select('*')
-    .eq('id', Number(id))
+    .eq('id', siteId)
     .maybeSingle();
 
   if (error || !site) notFound();

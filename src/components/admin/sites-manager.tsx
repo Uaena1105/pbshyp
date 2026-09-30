@@ -87,7 +87,7 @@ export function SitesManager() {
           return;
         }
         // 创建成功后直接进入可视化编辑
-        router.push(`/admin/sites/${data.site.id}`);
+        router.push(`/admin/sites/edit?id=${data.site.id}`);
       } catch {
         setError('网络错误');
       } finally {
@@ -201,7 +201,7 @@ export function SitesManager() {
 
               <div className="mt-5 flex items-center gap-2">
                 <Link
-                  href={`/admin/sites/${site.id}`}
+                  href={`/admin/sites/edit?id=${site.id}`}
                   className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-primary px-3.5 py-2 text-xs font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:shadow-xl hover:shadow-primary/35"
                 >
                   <Pencil className="h-3.5 w-3.5" />
