@@ -213,7 +213,7 @@ export function ProductsTab({ siteId }: { siteId: number }) {
           <div key={p.id} className="flex items-center justify-between gap-3 p-4">
             <div className="flex min-w-0 items-center gap-3">
               {p.main_image && (
-                // eslint-disable-next-line @next/next/no-img-element
+
                 <img src={p.main_image} alt={p.name} className="h-12 w-12 rounded-md object-cover" />
               )}
               <div className="min-w-0">

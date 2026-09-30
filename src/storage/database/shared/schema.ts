@@ -6,7 +6,7 @@ export const healthCheck = pgTable("health_check", {
   updatedAt: timestamp("updated_at", { withTimezone: true, mode: 'string' }).defaultNow(),
 });
 
-// 管理员
+
 export const admins = pgTable(
   "admins",
   {
@@ -21,12 +21,12 @@ export const admins = pgTable(
   ]
 );
 
-// 站点
+
 export const sites = pgTable(
   "sites",
   {
     id: serial().primaryKey(),
-    slug: varchar("slug", { length: 100 }).notNull().unique(), // 访问路径，如 "1", "2", "plastic"
+    slug: varchar("slug", { length: 100 }).notNull().unique(),
     name: varchar("name", { length: 200 }).notNull(),
     is_active: boolean("is_active").default(true).notNull(),
     created_at: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
@@ -38,7 +38,7 @@ export const sites = pgTable(
   ]
 );
 
-// 站点设置（Logo、公司名、联系方式、SEO等）
+
 export const site_settings = pgTable(
   "site_settings",
   {
@@ -56,7 +56,7 @@ export const site_settings = pgTable(
     seo_keywords: varchar("seo_keywords", { length: 500 }),
     footer_text: text("footer_text"),
     primary_color: varchar("primary_color", { length: 20 }).default("#1e40af"),
-    // 首页Hero区
+
     hero_title: varchar("hero_title", { length: 500 }),
     hero_subtitle: text("hero_subtitle"),
     hero_image: varchar("hero_image", { length: 500 }),
@@ -69,7 +69,7 @@ export const site_settings = pgTable(
   ]
 );
 
-// 导航菜单
+
 export const nav_links = pgTable(
   "nav_links",
   {
@@ -86,15 +86,15 @@ export const nav_links = pgTable(
   ]
 );
 
-// 页面内容
+
 export const pages = pgTable(
   "pages",
   {
     id: serial().primaryKey(),
     site_id: integer("site_id").notNull().references(() => sites.id, { onDelete: "cascade" }),
-    slug: varchar("slug", { length: 100 }).notNull(), // home, about, contact
+    slug: varchar("slug", { length: 100 }).notNull(),
     title: varchar("title", { length: 255 }).notNull(),
-    content: jsonb("content").default({}).notNull(), // 页面结构化内容
+    content: jsonb("content").default({}).notNull(),
     banner_image: varchar("banner_image", { length: 500 }),
     is_published: boolean("is_published").default(true).notNull(),
     updated_at: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
@@ -104,7 +104,7 @@ export const pages = pgTable(
   ]
 );
 
-// 产品分类
+
 export const categories = pgTable(
   "categories",
   {
@@ -124,7 +124,7 @@ export const categories = pgTable(
   ]
 );
 
-// 产品
+
 export const products = pgTable(
   "products",
   {
@@ -154,7 +154,7 @@ export const products = pgTable(
   ]
 );
 
-// Banner轮播图
+
 export const banners = pgTable(
   "banners",
   {
@@ -174,7 +174,7 @@ export const banners = pgTable(
   ]
 );
 
-// 新闻
+
 export const news = pgTable(
   "news",
   {
@@ -196,7 +196,7 @@ export const news = pgTable(
   ]
 );
 
-// 管理员会话token
+
 export const admin_sessions = pgTable(
   "admin_sessions",
   {

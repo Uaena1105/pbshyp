@@ -19,7 +19,7 @@ export async function verifyAdminToken(token: string): Promise<{ id: number; use
     .eq('token', token)
     .gt('expires_at', new Date().toISOString())
     .maybeSingle();
-  
+
   if (error || !data) return null;
   const admin = (data as any).admins;
   if (!admin) return null;
@@ -38,9 +38,9 @@ export async function createDefaultAdmin() {
   const { count, error: countError } = await client
     .from('admins')
     .select('*', { count: 'exact', head: true });
-  
+
   if (countError) throw countError;
-  
+
   if ((count ?? 0) === 0) {
     const { error } = await client
       .from('admins')

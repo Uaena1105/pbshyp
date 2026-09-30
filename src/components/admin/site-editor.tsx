@@ -61,7 +61,7 @@ export function SiteEditor({
         </Link>
       </div>
 
-      {/* 模式切换 */}
+
       <div className="glass mb-6 flex gap-1 rounded-full p-1">
         <button
           onClick={() => setView('visual')}

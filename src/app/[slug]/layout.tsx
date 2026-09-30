@@ -44,7 +44,7 @@ export default async function SiteLayout({
 
   return (
     <div className="relative min-h-screen overflow-x-clip bg-background">
-      {/* 液态玻璃光晕背景 */}
+
       <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
         <div className="aurora aurora-animate left-[-10%] top-[-10%] h-[38rem] w-[38rem] bg-sky-400/40" />
         <div

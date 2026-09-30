@@ -214,7 +214,7 @@ export const getSiteBySlug = cache(async (slug: string): Promise<Site | null> =>
     .eq('slug', slug)
     .eq('is_active', true)
     .maybeSingle();
-  
+
   if (error) throw new Error(`获取站点失败: ${error.message}`);
   return data as Site | null;
 });
@@ -226,7 +226,7 @@ export const getSiteSettings = cache(async (siteId: number): Promise<SiteSetting
     .select('*')
     .eq('site_id', siteId)
     .maybeSingle();
-  
+
   if (error) throw new Error(`获取站点设置失败: ${error.message}`);
   return data as SiteSettings | null;
 });
@@ -239,7 +239,7 @@ export const getNavLinks = cache(async (siteId: number): Promise<NavLink[]> => {
     .eq('site_id', siteId)
     .eq('is_active', true)
     .order('sort_order', { ascending: true });
-  
+
   if (error) throw new Error(`获取导航失败: ${error.message}`);
   return data as NavLink[];
 });
@@ -252,7 +252,7 @@ export async function getBanners(siteId: number): Promise<Banner[]> {
     .eq('site_id', siteId)
     .eq('is_active', true)
     .order('sort_order', { ascending: true });
-  
+
   if (error) throw new Error(`获取Banner失败: ${error.message}`);
   return data as Banner[];
 }
@@ -265,7 +265,7 @@ export async function getCategories(siteId: number): Promise<Category[]> {
     .eq('site_id', siteId)
     .eq('is_active', true)
     .order('sort_order', { ascending: true });
-  
+
   if (error) throw new Error(`获取分类失败: ${error.message}`);
   return data as Category[];
 }
@@ -280,7 +280,7 @@ export async function getFeaturedProducts(siteId: number, limit = 8): Promise<Pr
     .eq('is_featured', true)
     .order('sort_order', { ascending: true })
     .limit(limit);
-  
+
   if (error) throw new Error(`获取精选产品失败: ${error.message}`);
   return data as Product[];
 }
@@ -292,15 +292,15 @@ export async function getProducts(siteId: number, categoryId?: number, page = 1,
     .select('*', { count: 'exact' })
     .eq('site_id', siteId)
     .eq('is_active', true);
-  
+
   if (categoryId) {
     query = query.eq('category_id', categoryId);
   }
-  
+
   const { data, error, count } = await query
     .order('sort_order', { ascending: true })
     .range((page - 1) * pageSize, page * pageSize - 1);
-  
+
   if (error) throw new Error(`获取产品失败: ${error.message}`);
   return { data: data as Product[], count: count ?? 0 };
 }
@@ -313,7 +313,7 @@ export async function getProductById(id: number): Promise<Product | null> {
     .eq('id', id)
     .eq('is_active', true)
     .maybeSingle();
-  
+
   if (error) throw new Error(`获取产品详情失败: ${error.message}`);
   return data as Product | null;
 }
@@ -327,7 +327,7 @@ export async function getProductBySlug(siteId: number, slug: string): Promise<Pr
     .eq('slug', slug)
     .eq('is_active', true)
     .maybeSingle();
-  
+
   if (error) throw new Error(`获取产品详情失败: ${error.message}`);
   return data as Product | null;
 }
@@ -341,7 +341,7 @@ export async function getPageBySlug(siteId: number, slug: string): Promise<PageD
     .eq('slug', slug)
     .eq('is_published', true)
     .maybeSingle();
-  
+
   if (error) throw new Error(`获取页面失败: ${error.message}`);
   return data as PageData | null;
 }
@@ -369,7 +369,7 @@ export async function getNews(siteId: number, limit = 20): Promise<NewsItem[]> {
     .eq('is_published', true)
     .order('published_at', { ascending: false })
     .limit(limit);
-  
+
   if (error) throw new Error(`获取新闻失败: ${error.message}`);
   return data as NewsItem[];
 }
@@ -383,7 +383,7 @@ export async function getNewsBySlug(siteId: number, slug: string): Promise<NewsI
     .eq('slug', slug)
     .eq('is_published', true)
     .maybeSingle();
-  
+
   if (error) throw new Error(`获取新闻详情失败: ${error.message}`);
   return data as NewsItem | null;
 }
@@ -395,7 +395,7 @@ export async function getAllSites(): Promise<Site[]> {
     .select('*')
     .eq('is_active', true)
     .order('id', { ascending: true });
-  
+
   if (error) throw new Error(`获取站点列表失败: ${error.message}`);
   return data as Site[];
 }

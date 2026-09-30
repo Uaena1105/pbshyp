@@ -26,7 +26,7 @@ export function SiteHeader({
 
   return (
     <header className="glass-nav sticky top-0 z-50 w-full">
-      {/* 顶部联系条 */}
+
       <div className="hidden border-b border-white/40 md:block">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-2 text-xs text-slate-500">
           <div className="flex items-center gap-5">
@@ -93,7 +93,7 @@ export function SiteHeader({
         </div>
       </div>
 
-      {/* 主导航 */}
+
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         <Link href={`/${slug}`} className="flex items-center gap-2.5">
           {settings?.logo_url ? (
@@ -164,7 +164,7 @@ export function SiteHeader({
         </div>
       </div>
 
-      {/* 移动端抽屉 */}
+
       {open && (
         <div className="border-t border-white/40 px-6 pb-6 pt-2 lg:hidden">
           <nav className="flex flex-col gap-1">

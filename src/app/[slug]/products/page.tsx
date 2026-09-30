@@ -36,10 +36,10 @@ export default async function ProductsPage({
 
   return (
     <div>
-      {/* 页头 */}
+
       <section className="relative py-16 text-center">
         {heroImage && (
-          // eslint-disable-next-line @next/next/no-img-element
+
           <img
             src={heroImage}
             alt=""
@@ -54,7 +54,7 @@ export default async function ProductsPage({
         </div>
       </section>
 
-      {/* 分类过滤 */}
+
       <div className="mx-auto max-w-7xl px-6">
         <div className="glass flex flex-wrap gap-2 rounded-2xl p-2">
           <Link
@@ -83,7 +83,7 @@ export default async function ProductsPage({
         </div>
       </div>
 
-      {/* 产品网格 */}
+
       <section className="py-12">
         <div className="mx-auto max-w-7xl px-6">
           {products.length === 0 ? (
@@ -100,7 +100,7 @@ export default async function ProductsPage({
                 >
                   <div className="overflow-hidden">
                     {product.main_image && (
-                      // eslint-disable-next-line @next/next/no-img-element
+
                       <img
                         src={product.main_image}
                         alt={product.name}

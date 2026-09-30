@@ -47,7 +47,7 @@ export default async function AboutPage({
     <div>
       <section className="relative py-20 text-center">
         {bannerImage && (
-          // eslint-disable-next-line @next/next/no-img-element
+
           <img
             src={bannerImage}
             alt={title}

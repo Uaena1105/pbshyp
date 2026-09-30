@@ -22,7 +22,6 @@ function loadEnv(): void {
         return;
       }
     } catch {
-      // dotenv not available
     }
 
     const pythonCode = `
@@ -64,7 +63,6 @@ except Exception as e:
 
     envLoaded = true;
   } catch {
-    // Silently fail
   }
 }
 
@@ -110,7 +108,6 @@ function getSupabaseClient(token?: string): SupabaseClient {
       globalOptions.fetch = createWrappedFetch(buffer, 'supabase');
     }
   } catch {
-    // Silent — reporting setup failure should not block client creation
   }
 
   return createClient(url, key, {

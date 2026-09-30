@@ -138,9 +138,9 @@ body {
   @apply font-sans;
 }
 
-/* ===== Liquid Glass / iOS 26 Design System ===== */
 
-/* 磨砂玻璃导航 */
+
+
 .glass-nav {
   background: rgba(255, 255, 255, 0.62);
   backdrop-filter: blur(24px) saturate(180%);
@@ -149,7 +149,7 @@ body {
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
 }
 
-/* 液态玻璃卡片：通透 + 折射高光 */
+
 .glass-card {
   position: relative;
   background: linear-gradient(
@@ -198,7 +198,7 @@ body {
     inset 0 -1px 0 rgba(255, 255, 255, 0.2);
 }
 
-/* 强玻璃（大面积面板） */
+
 .glass {
   background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(20px) saturate(180%);
@@ -207,7 +207,7 @@ body {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
-/* 玻璃按钮 */
+
 .glass-btn {
   background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(16px) saturate(180%);
@@ -230,7 +230,7 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
-/* 彩色光晕（aurora blob） */
+
 .aurora {
   position: absolute;
   border-radius: 9999px;
@@ -257,7 +257,7 @@ body {
   animation: aurora-drift 18s ease-in-out infinite;
 }
 
-/* 漂浮元素 */
+
 @keyframes float-slow {
   0%,
   100% {
@@ -272,7 +272,7 @@ body {
   animation: float-slow 6s ease-in-out infinite;
 }
 
-/* 渐变文字（iOS 风格强调标题） */
+
 .text-gradient {
   background: linear-gradient(110deg, #0a84ff 0%, #5e5ce6 45%, #bf5af2 100%);
   -webkit-background-clip: text;
@@ -280,7 +280,7 @@ body {
   color: transparent;
 }
 
-/* 细腻的高光方向光 */
+
 .sheen {
   position: relative;
   overflow: hidden;
@@ -308,7 +308,7 @@ body {
   left: 120%;
 }
 
-/* 尊重减弱动效偏好 */
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

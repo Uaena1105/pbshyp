@@ -45,7 +45,7 @@ interface Dashboard {
   navLinks: NavLink[];
 }
 
-/** settings field（camelCase）→ 数据库列名（snake_case） */
+
 const SETTINGS_FIELDS: Record<string, string> = {
   companyName: 'company_name',
   logo: 'logo_url',
@@ -98,7 +98,7 @@ export function VisualEditor({
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // 编辑对话框状态
+
   const [req, setReq] = useState<EditRequest | null>(null);
   const [draft, setDraft] = useState('');
   const [uploading, setUploading] = useState(false);
@@ -271,7 +271,7 @@ export function VisualEditor({
 
   return (
     <EditorProvider editable edit={edit}>
-      {/* 提示条 */}
+
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-primary/15 bg-primary/5 px-4 py-3 backdrop-blur">
         <span className="inline-flex items-center gap-1.5 text-sm font-medium text-primary">
           <Pencil className="h-4 w-4" />
@@ -293,7 +293,7 @@ export function VisualEditor({
         </div>
       </div>
 
-      {/* 站点预览（复用真实前台组件） */}
+
       <div className="rounded-[2rem] border border-white/60 bg-background/70 shadow-[0_12px_44px_rgba(10,84,255,0.08)] backdrop-blur-xl">
         <SiteHeader
           slug={slug}
@@ -319,7 +319,7 @@ export function VisualEditor({
         </p>
       )}
 
-      {/* 内联编辑对话框 */}
+
       <Dialog open={!!req} onOpenChange={(o) => !o && setReq(null)}>
         <DialogContent className="glass-card rounded-[1.5rem] sm:max-w-md">
           <DialogHeader>
@@ -336,7 +336,7 @@ export function VisualEditor({
             <div className="space-y-4">
               <div className="flex h-40 items-center justify-center overflow-hidden rounded-xl bg-slate-100">
                 {draft ? (
-                  // eslint-disable-next-line @next/next/no-img-element
+
                   <img src={imgSrc(draft)} alt="" className="h-full w-full object-cover" />
                 ) : (
                   <span className="text-sm text-slate-400">暂无图片</span>

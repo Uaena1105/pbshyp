@@ -3,10 +3,7 @@ import { getStorage } from '@/lib/storage';
 
 export const runtime = 'nodejs';
 
-/**
- * 对象存储图片代理：根据 key 动态生成签名 URL 并 302 重定向。
- * 持久化字段仅存 key，此处按需生成短时签名链接，避免 URL 过期失效。
- */
+
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ key: string[] }> },

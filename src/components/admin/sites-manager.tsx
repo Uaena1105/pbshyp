@@ -86,7 +86,7 @@ export function SitesManager() {
           setError(data.error ?? '创建失败');
           return;
         }
-        // 创建成功后直接进入可视化编辑
+
         router.push(`/admin/sites/edit?id=${data.site.id}`);
       } catch {
         setError('网络错误');
@@ -112,7 +112,7 @@ export function SitesManager() {
         </p>
       </div>
 
-      {/* 一键创建 */}
+
       <div className="glass-card mb-8 rounded-3xl p-6">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <h2 className="inline-flex items-center gap-2 font-semibold text-foreground">
@@ -165,7 +165,7 @@ export function SitesManager() {
         )}
       </div>
 
-      {/* 站点列表 */}
+
       <div className="mb-4 flex items-center justify-between">
         <h2 className="font-semibold text-foreground">
           我的站点 <span className="ml-1 text-sm font-normal text-slate-400">{sites.length}</span>

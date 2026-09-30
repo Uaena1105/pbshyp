@@ -47,7 +47,7 @@ export default async function ContactPage({
 
       <section className="pb-16">
         <div className="mx-auto grid max-w-6xl gap-8 px-6 lg:grid-cols-2">
-          {/* 联系信息 */}
+
           <div className="glass-card rounded-[2rem] p-8">
             <h2 className="text-2xl font-extrabold tracking-tight text-foreground">
               Contact <span className="text-gradient">Information</span>
@@ -83,7 +83,7 @@ export default async function ContactPage({
             </div>
           </div>
 
-          {/* 表单 */}
+
           <div className="glass-card rounded-[2rem] p-8">
             <h2 className="text-2xl font-extrabold tracking-tight text-foreground">
               Send an <span className="text-gradient">Inquiry</span>

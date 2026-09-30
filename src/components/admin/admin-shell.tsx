@@ -30,7 +30,7 @@ export function AdminShell({
         />
       </div>
 
-      {/* 侧边栏 */}
+
       <aside className="fixed inset-y-0 left-0 z-40 hidden w-60 flex-col border-r border-white/10 bg-slate-900/85 backdrop-blur-2xl md:flex">
         <div className="flex items-center gap-2.5 px-5 py-6">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary/20">
@@ -63,7 +63,7 @@ export function AdminShell({
         </div>
       </aside>
 
-      {/* 主内容 */}
+
       <div className="flex-1 md:pl-60">
         <main className="p-4 md:p-8">{children}</main>
       </div>

@@ -33,7 +33,7 @@ export async function POST(request: Request) {
       fileName,
       contentType: file.type || 'application/octet-stream',
     });
-    // 持久化字段存 key:// 前缀，避免签名 URL 过期
+
     return NextResponse.json({ success: true, key: `key://${key}`, rawKey: key });
   } catch (err) {
     const message = err instanceof Error ? err.message : '上传失败';

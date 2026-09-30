@@ -113,14 +113,14 @@ export function EditableImage({
 
   if (!editable) {
     if (!src) return null;
-    // eslint-disable-next-line @next/next/no-img-element
+
     return <img src={src} alt={alt} className={imgClassName} />;
   }
 
   return (
     <div className={cn('group/editable relative', className)}>
       {src ? (
-        // eslint-disable-next-line @next/next/no-img-element
+
         <img src={src} alt={alt} className={imgClassName} />
       ) : (
         <div

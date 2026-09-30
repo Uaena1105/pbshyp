@@ -4,11 +4,11 @@ import { hashPassword } from '@/lib/admin-auth';
 
 export async function GET() {
   const client = getSupabaseClient();
-  
+
   try {
-    // 检查是否已有管理员
+
     const { count: adminCount } = await client.from('admins').select('*', { count: 'exact', head: true });
-    
+
     if ((adminCount ?? 0) === 0) {
       await client.from('admins').insert({
         username: 'admin',
@@ -17,11 +17,11 @@ export async function GET() {
       });
     }
 
-    // 检查是否已有默认站点
+
     const { count: siteCount } = await client.from('sites').select('*', { count: 'exact', head: true });
-    
+
     if ((siteCount ?? 0) === 0) {
-      // 创建默认站点 (slug = 1)
+
       const { data: site1Arr } = await client.from('sites').insert({
         slug: '1',
         name: '示例站点1 - 塑料制品',
@@ -29,7 +29,7 @@ export async function GET() {
       }).select();
       const site1 = site1Arr![0];
 
-      // 创建站点设置
+
       await client.from('site_settings').insert({
         site_id: site1.id,
         company_name: 'Shandong Licheng Advanced Material Technology Co., Ltd.',
@@ -50,7 +50,7 @@ export async function GET() {
         hero_button_link: 'products',
       });
 
-      // 创建导航菜单
+
       await client.from('nav_links').insert([
         { site_id: site1.id, label: 'Home', href: '', sort_order: 1 },
         { site_id: site1.id, label: 'About Us', href: 'about', sort_order: 2 },
@@ -58,7 +58,7 @@ export async function GET() {
         { site_id: site1.id, label: 'Contact', href: 'contact', sort_order: 4 },
       ]);
 
-      // 创建Banner
+
       await client.from('banners').insert([
         {
           site_id: site1.id,
@@ -80,7 +80,7 @@ export async function GET() {
         },
       ]);
 
-      // 创建分类
+
       const { data: cat1Arr } = await client.from('categories').insert({
         site_id: site1.id, name: 'Plastic Bags', slug: 'plastic-bags',
         description: 'Various types of plastic bags for packaging and retail',
@@ -105,7 +105,7 @@ export async function GET() {
       }).select();
       const cat3 = cat3Arr![0];
 
-      // 创建产品
+
       await client.from('products').insert([
         {
           site_id: site1.id, category_id: cat1.id, name: 'Custom T-Shirt Bags', slug: 'custom-tshirt-bags',
@@ -199,7 +199,7 @@ export async function GET() {
         },
       ]);
 
-      // 创建页面
+
       await client.from('pages').insert([
         {
           site_id: site1.id, slug: 'home', title: 'Home',
@@ -236,7 +236,7 @@ export async function GET() {
         },
       ]);
 
-      // 创建第二个示例站点
+
       const { data: site2Arr } = await client.from('sites').insert({
         slug: '2',
         name: '示例站点2 - 电子产品',

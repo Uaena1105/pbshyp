@@ -41,11 +41,11 @@ export default async function ProductDetailPage({
         </Link>
 
         <div className="mt-8 grid gap-10 lg:grid-cols-2">
-          {/* 图片区 */}
+
           <div>
             <div className="glass-card overflow-hidden rounded-[2rem] p-2">
               {product.main_image && (
-                // eslint-disable-next-line @next/next/no-img-element
+
                 <img
                   src={product.main_image}
                   alt={product.name}
@@ -69,7 +69,7 @@ export default async function ProductDetailPage({
             )}
           </div>
 
-          {/* 信息区 */}
+
           <div>
             <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
               {product.name}

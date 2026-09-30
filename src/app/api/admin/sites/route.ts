@@ -23,19 +23,19 @@ export async function POST(request: Request) {
   const templateKey = String(body.template ?? 'general').trim();
   const template = TEMPLATES.find((t) => t.key === templateKey) ?? TEMPLATES[3];
 
-  // 名称留空时，按模板自动生成；否则使用用户输入
+
   const name = String(body.name ?? '').trim() || template.label;
   let slug = String(body.slug ?? '').trim();
 
   const client = getSupabaseClient();
 
-  // 如果不指定 slug，自动生成数字序号
+
   if (!slug) {
     const { count } = await client.from('sites').select('*', { count: 'exact', head: true });
     slug = String((count ?? 0) + 1);
   }
 
-  // 检查 slug 唯一性
+
   const { data: existing } = await client
     .from('sites')
     .select('id')
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
 
   const tpl = getTemplateData(templateKey);
 
-  // 1. 站点设置（含首页可变文案 home_content）
+
   await client.from('site_settings').insert({
     site_id: site.id,
     company_name: name,
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
     home_content: tpl.home_content,
   });
 
-  // 2. 导航
+
   await client.from('nav_links').insert([
     { site_id: site.id, label: 'Home', href: '', sort_order: 1 },
     { site_id: site.id, label: 'About Us', href: 'about', sort_order: 2 },
@@ -80,12 +80,12 @@ export async function POST(request: Request) {
     { site_id: site.id, label: 'Contact', href: 'contact', sort_order: 5 },
   ]);
 
-  // 3. 轮播
+
   await client.from('banners').insert(
     tpl.banners.map((b, i) => ({ ...b, site_id: site.id, sort_order: i + 1 })),
   );
 
-  // 4. 分类（先建，拿到 id 关联产品）
+
   const categoryIds: number[] = [];
   for (const c of tpl.categories) {
     const { data: cat } = await client
@@ -96,7 +96,7 @@ export async function POST(request: Request) {
     if (cat) categoryIds.push(cat.id);
   }
 
-  // 5. 产品（按序轮流分配到分类）
+
   await client.from('products').insert(
     tpl.products.map((p, i) => ({
       ...p,
@@ -107,7 +107,7 @@ export async function POST(request: Request) {
     })),
   );
 
-  // 6. 新闻
+
   await client.from('news').insert(
     tpl.news.map((n, i) => ({
       ...n,
@@ -118,7 +118,7 @@ export async function POST(request: Request) {
     })),
   );
 
-  // 7. 默认页面
+
   await client.from('pages').insert([
     { site_id: site.id, slug: 'home', title: 'Home', content: { sections: ['hero', 'featured', 'categories', 'about_preview'] }, is_published: true },
     { site_id: site.id, slug: 'about', title: 'About Us', content: { title: 'About Us', paragraphs: [], facts: [] }, is_published: true },

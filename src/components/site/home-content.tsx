@@ -70,7 +70,7 @@ export function HomeContent({
 
   return (
     <div>
-      {/* Hero */}
+
       <section className="relative">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-16 md:grid-cols-2 md:py-24 lg:py-28">
           <div className="flex flex-col items-start">
@@ -175,7 +175,7 @@ export function HomeContent({
         </div>
       </section>
 
-      {/* 优势区 */}
+
       <section className="py-16">
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center">
@@ -222,7 +222,7 @@ export function HomeContent({
         </div>
       </section>
 
-      {/* 产品分类 */}
+
       {categories.length > 0 && (
         <section className="py-16">
           <div className="mx-auto max-w-7xl px-6">
@@ -293,7 +293,7 @@ export function HomeContent({
         </section>
       )}
 
-      {/* 精选产品 */}
+
       {featuredProducts.length > 0 && (
         <section className="py-16">
           <div className="mx-auto max-w-7xl px-6">
@@ -371,7 +371,7 @@ export function HomeContent({
         </section>
       )}
 
-      {/* 数据统计 */}
+
       <section className="py-16">
         <div className="mx-auto max-w-7xl px-6">
           <div className="glass-card grid grid-cols-2 gap-8 rounded-[2rem] p-10 text-center sm:grid-cols-3 lg:grid-cols-6">
@@ -401,7 +401,7 @@ export function HomeContent({
         </div>
       </section>
 
-      {/* 生产流程 */}
+
       <section className="py-16">
         <div className="mx-auto max-w-7xl px-6">
           <div className="text-center">
@@ -454,7 +454,7 @@ export function HomeContent({
         </div>
       </section>
 
-      {/* 关于预览 */}
+
       <section className="py-16">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 md:grid-cols-2">
           <div>
@@ -524,7 +524,7 @@ export function HomeContent({
         </div>
       </section>
 
-      {/* 新闻预览 */}
+
       {news.length > 0 && (
         <section className="py-16">
           <div className="mx-auto max-w-7xl px-6">
@@ -599,7 +599,7 @@ export function HomeContent({
         </section>
       )}
 
-      {/* CTA */}
+
       <section className="py-16">
         <div className="mx-auto max-w-5xl px-6">
           <div className="glass-card relative overflow-hidden rounded-[2.5rem] px-6 py-16 text-center">
