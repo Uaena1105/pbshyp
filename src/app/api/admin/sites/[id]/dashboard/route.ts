@@ -8,7 +8,7 @@ import {
   getFeaturedProducts,
   getNews,
   getNavLinks,
-  getDefaultHomeContent,
+  resolveHomeContent,
 } from '@/lib/site-data';
 
 export const dynamic = 'force-dynamic';
@@ -45,7 +45,7 @@ export async function GET(
     ]);
 
   const resolvedSettings = settings
-    ? { ...settings, home_content: settings.home_content ?? getDefaultHomeContent() }
+    ? { ...settings, home_content: resolveHomeContent(settings.home_content) }
     : null;
 
   return NextResponse.json({
